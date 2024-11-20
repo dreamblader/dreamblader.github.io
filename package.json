@@ -1,0 +1,24 @@
+{
+  "name": "dreamblader.github.io",
+  "version": "1.0.0",
+  "description": "My personal fun page",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "http-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreamblader/dreamblader.github.io.git"
+  },
+  "author": "Carlos Gabriel Luz Monnazzi (Dreamblader)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dreamblader/dreamblader.github.io/issues"
+  },
+  "homepage": "https://github.com/dreamblader/dreamblader.github.io#readme",
+  "dependencies": {
+    "htmx.org": "^2.0.3"
+  }
+}
