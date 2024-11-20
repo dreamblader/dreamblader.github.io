@@ -5,8 +5,13 @@ body{
 
 .char{
     position: absolute;
+    /*THIS DOWN HERE WILL BE DYNAMIC*/
     top: 50%;
     right: 50%;
+    width: 79px;
+    height: 107px;
+    border: 0px;
+    background-image: url("assets/gm3-stand.png");
 }
 
 #container{

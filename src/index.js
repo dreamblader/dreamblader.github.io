@@ -1,6 +1,7 @@
 import {toPxStyle} from "./utils.js"
+import Char from "./char.js";
 
-const char = document.getElementById("char");
+const char = new Char(document.getElementById("char"));
 const container = document.getElementById("container");
 
 
@@ -15,33 +16,8 @@ function paintAt(posX, posY){
     container.append(t);
 }
 
-function moveCharTo(posX, posY){
-    //FIXME FIRST 50% 50% make it jump and then its ok
-    //Add offset to the center
-    //Add walking animation while performing the transtion
-    const frames = [
-        // {
-        //     left: char.style.left,
-        //     top: char.style.top
-        // },
-        {
-            left: toPxStyle(posX),
-            top: toPxStyle(posY)
-        }
-    ]
-    const duration = {
-        duration: 1000,
-        fill: "forwards"
-
-    }
-    char.animate(frames, duration);
-}
-
 window.addEventListener("click", event => {
-    
-    //char.style.top = event.y+'px';
-    //char.style.left = event.x+'px';
-    moveCharTo(event.x, event.y);
+    char.moveTo(event.x, event.y);
     
     
 
