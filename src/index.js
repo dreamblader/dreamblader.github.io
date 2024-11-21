@@ -1,7 +1,8 @@
 import {toPxStyle} from "./utils.js"
-import Char from "./char/char.js";
+import Char from "./base/char.js";
+import { GM3_SPRITES } from "./constants.js";
 
-const char = new Char(document.getElementById("char"));
+const char = new Char(document.getElementById("char"), GM3_SPRITES);
 const container = document.getElementById("container");
 
 

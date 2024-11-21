@@ -1,19 +1,20 @@
 import { toPxStyle, generateAnimationFrames } from "../utils.js";
 
 export default class Char{
-    static IDLE_STATE = 0;
-    static WALK_STATE = 1;
-    static JUMP_STATE = 2;
-    
-    constructor(sprite){
+    constructor(holder, sprite){
+        this.holder = holder;
         this.sprite = sprite;
-        this.state = this.IDLE_STATE;
-        generateAnimationFrames("./assets/gm3-walk.png", 3)
+        this.holder.style.width = toPxStyle(sprite.width);
+        this.holder.style.height = toPxStyle(sprite.height);
     }
 
     moveTo(posX, posY){
         //FIXME 
         //Add walking animation while performing the transtion
+        const walkAnimation = this.sprite.animations['walk']
+        if(walkAnimation != undefined){
+            walkAnimation.runAnimationIn(this.holder)
+        }
         const {x: myX, y: myY} = this.getPos();
         const {x: xOffset, y: yOffset} = this.getCenterOffset();
         console.log(this.getCenterOffset())
@@ -32,11 +33,11 @@ export default class Char{
             fill: "forwards"
     
         }
-        this.sprite.animate(frames, duration);
+        this.holder.animate(frames, duration);
     }
 
     getRect(){
-        return this.sprite.getBoundingClientRect();
+        return this.holder.getBoundingClientRect();
     }
 
     getPos(){
