@@ -1,4 +1,4 @@
-import { toPxStyle, generateAnimationFrames } from "./utils.js";
+import { toPxStyle, generateAnimationFrames } from "../utils.js";
 
 export default class Char{
     static IDLE_STATE = 0;

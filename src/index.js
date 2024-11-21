@@ -1,5 +1,5 @@
 import {toPxStyle} from "./utils.js"
-import Char from "./char.js";
+import Char from "./char/char.js";
 
 const char = new Char(document.getElementById("char"));
 const container = document.getElementById("container");
