@@ -14,16 +14,50 @@ export default class Char {
 		this.animate("idle");
 	}
 
+	clickIn(posX, posY) {
+		if (this.clickedMe(posX, posY) && !this.jumpMovement) {
+			this.jump();
+			console.log("YO");
+		} else if (!this.jumpMovement) {
+			this.moveTo(posX, posY);
+		}
+	}
+
+	jump() {
+		this.animate("jump");
+		const jumpPower = 45;
+		const { y: myY } = this.getPos();
+		const frames = [
+			{
+				top: toPxStyle(myY),
+			},
+			{
+				top: toPxStyle(myY - jumpPower),
+			},
+			{
+				top: toPxStyle(myY),
+			},
+		];
+		const duration = {
+			duration: 500,
+		};
+		this.jumpMovement = this.holder.animate(frames, duration);
+		this.jumpMovement.onfinish = (e) => {
+			this.animate("idle");
+			this.jumpMovement = null;
+		};
+	}
+
 	moveTo(posX, posY) {
-		//FIXME
-		//Add walking animation while performing the transtion
-		if (this.movement !== null && this.movement !== undefined) {
+		if (this.movement) {
 			this.movement.onfinish = null;
 		}
 
 		this.animate("walk");
+
 		const { x: myX, y: myY } = this.getPos();
 		const { x: xOffset, y: yOffset } = this.getCenterOffset();
+		this.changeDirection(myX <= posX ? 1 : -1);
 		const frames = [
 			{
 				left: toPxStyle(myX),
@@ -44,9 +78,19 @@ export default class Char {
 			this.animate("idle");
 			this.movement = null;
 		};
-		this.holder.addEventListener("animationend", (e) => {
-			console.log(e);
-		});
+	}
+
+	changeDirection(xDir = 1, yDir = 1) {
+		this.spriteHolder.style.scale = `${xDir * this.sprite.scale} ${
+			yDir * this.sprite.scale
+		}`;
+	}
+
+	clickedMe(posX, posY) {
+		let rect = this.getRect();
+		const isInX = posX >= rect.x && posX <= rect.x + rect.width;
+		const isInY = posY >= rect.y && posY <= rect.y + rect.height;
+		return isInX && isInY;
 	}
 
 	animate(name) {

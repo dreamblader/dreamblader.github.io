@@ -7,5 +7,6 @@ export const GM3_SPRITES = {
 	animations: {
 		idle: new SpriteAnimation("assets/gm3-stand.png"),
 		walk: new SpriteAnimation("assets/gm3-walk.png", 3, 0.35, true),
+		jump: new SpriteAnimation("assets/gm3-jump.png"),
 	},
 };
