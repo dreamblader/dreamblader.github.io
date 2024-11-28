@@ -17,9 +17,9 @@ export default class Char {
 	moveTo(posX, posY) {
 		//FIXME
 		//Add walking animation while performing the transtion
-		// if(this.movement !== null && this.movement !== undefined){
-		//     this.movement.onfinish =
-		// }
+		if (this.movement !== null && this.movement !== undefined) {
+			this.movement.onfinish = null;
+		}
 
 		this.animate("walk");
 		const { x: myX, y: myY } = this.getPos();
@@ -34,23 +34,19 @@ export default class Char {
 				top: toPxStyle(posY - yOffset),
 			},
 		];
-		console.log(
-			[myX, myY],
-			[posX - xOffset, posY - yOffset],
-			this.getRect()
-		);
 		const duration = {
 			duration: 1000,
 			fill: "forwards",
 		};
 
-		// this.movement =
-		this.holder.animate(frames, duration);
-		// this.movement.onfinish = (e) => {
-		//     this.animate('idle')
-		//     this.movement = null
-		// }
-		this.holder.addEventListener;
+		this.movement = this.holder.animate(frames, duration);
+		this.movement.onfinish = (e) => {
+			this.animate("idle");
+			this.movement = null;
+		};
+		this.holder.addEventListener("animationend", (e) => {
+			console.log(e);
+		});
 	}
 
 	animate(name) {
