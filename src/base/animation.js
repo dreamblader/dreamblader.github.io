@@ -6,7 +6,19 @@ export default class SpriteAnimation{
         this.imageSrc = sheetUrl
         this.frameCount = frameCount
         this.duration = duration
-        console.log(this)
+        this.loop = loop
+        this.running = false
+        this.#loadImageAttrs()
+    }
+
+    #loadImageAttrs(){
+        return new Promise((res,rej) => {
+            const img = new Image();
+            img.onload = () => {
+                this.widthDivider = img.naturalWidth/this.frameCount
+            }
+            img.src = this.imageSrc;
+        })
     }
 
     runAnimationIn(object) {
@@ -14,34 +26,35 @@ export default class SpriteAnimation{
             return
         }
 
-        if(this.frameCount > 1){
-            const frames = this.#generateAnimationFrames()
-            console.log(frames)
-            const options = {
-                duration : this.duration*1000,
-                iterations: this.loop ? Infinity : 1
-            }
-            object.animate(frames, options)
-        } else {
-            //1 Frame animations always will count as looping images
+        if(!this.running){
             object.style.backgroundImage = `url(${this.imageSrc})`
+            this.currentFrame = 0
+    
+            if(this.frameCount > 1){
+                const interval = (this.duration*1000)/this.frameCount
+                this.animation = setInterval(() => {this.#draw(object)}, interval)
+            }
+            this.running = true
         }
         
     }
 
-    #generateAnimationFrames(){
-        let frames = []
-        const img = new Image();
-        img.src = this.imageSrc;
-        const divider = img.naturalWidth/this.framesCount;
-        //FIXME naturalWidth need the image visible on browser
-        console.log(img.naturalWidth, divider, this.imageSrc)
-        for(let i = 0; i<this.framesCount; i++){
-            frames.push({
-                backgroundImage: `url(${this.imageSrc})`,
-                backgroundPosition: `0px ${toPxStyle(i*divider)}`
-            });
+    stop(){
+        if(this.animation !== undefined){
+            clearInterval(this.animation)
         }
-        return frames;
+        this.running = false
+    }
+
+    #draw(object){
+        object.style.backgroundPosition = this.#generateFramePosition(this.currentFrame);
+        this.currentFrame = (this.currentFrame + 1) % this.frameCount
+        if(this.currentFrame === 0 && !this.loop){
+            clearInterval(this.animation)
+        }
+    }
+
+    #generateFramePosition(frameIndex){
+        return `${toPxStyle(frameIndex*this.widthDivider)} 0px`;
     }
 }

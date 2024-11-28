@@ -4,20 +4,26 @@ export default class Char{
     constructor(holder, sprite){
         this.holder = holder;
         this.sprite = sprite;
-        this.holder.style.width = toPxStyle(sprite.width);
-        this.holder.style.height = toPxStyle(sprite.height);
+        this.holder.style.width = toPxStyle(sprite.width*sprite.scale);
+        this.holder.style.height = toPxStyle(sprite.height*sprite.scale);
+        this.spriteHolder = document.createElement("div")
+        this.spriteHolder.style.width = toPxStyle(sprite.width);
+        this.spriteHolder.style.height = toPxStyle(sprite.height);
+        this.spriteHolder.style.scale = sprite.scale
+        this.holder.appendChild(this.spriteHolder)
+        this.animate('idle')
     }
 
     moveTo(posX, posY){
         //FIXME 
         //Add walking animation while performing the transtion
-        const walkAnimation = this.sprite.animations['walk']
-        if(walkAnimation != undefined){
-            walkAnimation.runAnimationIn(this.holder)
-        }
+        // if(this.movement !== null && this.movement !== undefined){
+        //     this.movement.onfinish = 
+        // }
+
+        this.animate('walk')
         const {x: myX, y: myY} = this.getPos();
         const {x: xOffset, y: yOffset} = this.getCenterOffset();
-        console.log(this.getCenterOffset())
         const frames = [
             {
                 left: toPxStyle(myX),
@@ -28,12 +34,29 @@ export default class Char{
                 top: toPxStyle(posY-yOffset)
             }
         ]
+        console.log([myX, myY], [posX-xOffset, posY-yOffset], this.getRect())
         const duration = {
             duration: 1000,
             fill: "forwards"
     
         }
-        this.holder.animate(frames, duration);
+        
+        this.movement = this.holder.animate(frames, duration);
+        this.movement.onfinish = (e) => {
+            this.animate('idle')
+            this.movement = null
+        }
+    }
+
+    animate(name){
+        if(this.currentAnimation !== undefined){
+            this.currentAnimation.stop()
+        }
+
+        if(name in this.sprite.animations){
+            this.currentAnimation = this.sprite.animations[name]
+            this.currentAnimation.runAnimationIn(this.spriteHolder)
+        }
     }
 
     getRect(){
@@ -55,7 +78,6 @@ export default class Char{
             x: (rect.width / 2),
             y: (rect.height / 2),
         }
-        console.log(rect)
         return pos;
     }
     

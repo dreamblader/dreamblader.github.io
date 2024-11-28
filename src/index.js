@@ -19,10 +19,7 @@ function paintAt(posX, posY){
 
 window.addEventListener("click", event => {
     char.moveTo(event.x, event.y);
-    
-    
-
-    console.log(event.x, event.y);
+    //paintAt(event.x, event.y)
 })
 
 
