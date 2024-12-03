@@ -4,6 +4,7 @@ import { GM3_SPRITES } from "./constants.js";
 
 const char = new Char(document.getElementById("char"), GM3_SPRITES);
 const container = document.getElementById("container");
+const buildings = document.getElementsByClassName("building");
 
 function paintAt(posX, posY) {
 	const t = document.createElement("div");
@@ -19,4 +20,10 @@ function paintAt(posX, posY) {
 window.addEventListener("click", (event) => {
 	char.clickIn(event.x, event.y);
 	//paintAt(event.x, event.y)
+});
+
+Array.from(buildings).forEach((element) => {
+	element.addEventListener("click", (event) => {
+		console.log(element);
+	});
 });

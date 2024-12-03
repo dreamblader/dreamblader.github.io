@@ -11,10 +11,44 @@ body{
     align-items: center; 
     top: 50%;
     right: 50%;
+    z-index: 10;
+}
+
+.building{
+    position: absolute;
+    background-color: red;
+    width: 100px;
+    height: 100px;
+    z-index: 0;
+}
+
+#cv{
+    top: 10%;
+    right: 75%;
+}
+
+#play{
+    top: 10%;
+    right: 25%;
+}
+
+#game{
+    top: 75%;
+    right: 75%;
+}
+
+#project{
+    top: 75%;
+    right: 25%;
+}
+
+#home{
+    top: 35%;
+    right: 50%;
 }
 
 #container{
-    background-color: orange;
+    background-color: #02c902;
     padding: 8px;
     height: 98.25vh;
     width: auto;
