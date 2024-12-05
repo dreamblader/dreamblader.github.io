@@ -7,7 +7,7 @@ const SCREENS = {
 	game: "https://dreamblader.github.io/dreamblade/",
 };
 
-export function startTransition(transition_element, root_target, placeId) {
+export function startTransition(transition_element) {
 	const frames = [
 		{ backgroundColor: "transparent" },
 		{ backgroundColor: "black" },
@@ -17,29 +17,18 @@ export function startTransition(transition_element, root_target, placeId) {
 		fill: "forwards",
 	};
 	transition_element.style.visibility = "visible";
-	const t = transition_element.animate(frames, duration);
-	t.onfinish = (e) => {
-		addToTarget(root_target, getPlace(placeId)).then(
-			() => {
-				t.reverse();
-				t.onfinish = null;
-			},
-			(err) => {
-				console.log(err);
-			}
-		);
-	};
+	return transition_element.animate(frames, duration);
 }
 
-function addToTarget(root_target, file) {
+export function addToTarget(root_target, file) {
 	return new Promise((res, rej) => {
 		const xReq = new XMLHttpRequest();
 		xReq.onload = () => {
-			try {
+			if (xReq.status == 200) {
 				root_target.innerHTML = xReq.responseText;
 				res();
-			} catch (err) {
-				rej(err);
+			} else {
+				rej(xReq.responseText);
 			}
 		};
 		xReq.open("GET", file);
@@ -47,9 +36,9 @@ function addToTarget(root_target, file) {
 	});
 }
 
-function getPlace(placeId) {
+export function getPlace(placeId) {
 	const place = SCREENS[placeId];
-	if (place.startsWith("http")) {
+	if (place && place.startsWith("http")) {
 		window.location.href = place;
 	} else {
 		return SCREENS[placeId];
