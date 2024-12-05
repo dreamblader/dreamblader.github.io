@@ -1,6 +1,9 @@
 const SCREENS = {
 	start: "index.html",
 	cv: "screens/cv.html",
+	play: "screens/playground.html",
+	home: "screens/home.html",
+	project: "screens/projects.html",
 };
 
 export function startTransition(transition_element, root_target, placeId) {
