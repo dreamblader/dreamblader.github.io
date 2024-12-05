@@ -1,0 +1,64 @@
+body{
+    margin: 0;
+    height: 100vh;
+    cursor: url('assets/cursor.png') 16 16, auto;
+    image-rendering: pixelated;
+}
+
+.char{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    top: 50%;
+    right: 50%;
+    z-index: 10;
+}
+
+.building{
+    position: absolute;
+    background-color: red;
+    width: 100px;
+    height: 100px;
+    z-index: 0;
+}
+
+#transition{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    z-index: 20;
+    visibility: hidden;
+}
+
+#cv{
+    top: 10%;
+    right: 75%;
+}
+
+#play{
+    top: 10%;
+    right: 25%;
+}
+
+#game{
+    top: 75%;
+    right: 75%;
+}
+
+#project{
+    top: 75%;
+    right: 25%;
+}
+
+#home{
+    top: 35%;
+    right: 50%;
+}
+
+#container{
+    background-color: #02c902;
+    height: 100%;
+    width: 100%;
+}
