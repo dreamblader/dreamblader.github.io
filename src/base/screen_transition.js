@@ -4,6 +4,7 @@ const SCREENS = {
 	play: "screens/playground.html",
 	home: "screens/home.html",
 	project: "screens/projects.html",
+	game: "https://dreamblader.github.io/dreamblade/",
 };
 
 export function startTransition(transition_element, root_target, placeId) {
@@ -47,5 +48,10 @@ function addToTarget(root_target, file) {
 }
 
 function getPlace(placeId) {
-	return SCREENS[placeId];
+	const place = SCREENS[placeId];
+	if (place.startsWith("http")) {
+		window.location.href = place;
+	} else {
+		return SCREENS[placeId];
+	}
 }
