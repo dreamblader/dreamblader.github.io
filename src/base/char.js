@@ -1,4 +1,4 @@
-import { toPxStyle, generateAnimationFrames } from "../utils.js";
+import { toPxStyle, generateAnimationFrames } from "../utils/utils.js";
 
 export default class Char {
 	constructor(holder, sprite) {

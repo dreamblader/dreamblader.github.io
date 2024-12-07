@@ -1,4 +1,6 @@
 import SpriteAnimation from "./base/animation.js";
+import START from "./screens/start/start.js";
+import CV from "./screens/cv/cv.js";
 
 export const GM3_SPRITES = {
 	width: 20,
@@ -9,4 +11,14 @@ export const GM3_SPRITES = {
 		walk: new SpriteAnimation("assets/gm3-walk.png", 3, 0.35, true),
 		jump: new SpriteAnimation("assets/gm3-jump.png"),
 	},
+};
+
+//CLASS THIS
+export const SCREENS = {
+	start: START,
+	cv: CV,
+	play: "screens/playground.html",
+	home: "screens/home.html",
+	project: "screens/projects.html",
+	game: "https://dreamblader.github.io/dreamblade/",
 };
