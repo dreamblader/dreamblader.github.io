@@ -2,6 +2,8 @@ import SpriteAnimation from "./base/animation.js";
 import START from "./screens/start/start.js";
 import CV from "./screens/cv/cv.js";
 
+export const CHANGE_PLACE_EVENT_NAME = "change-place";
+
 export const GM3_SPRITES = {
 	width: 20,
 	height: 20,
@@ -20,5 +22,5 @@ export const SCREENS = {
 	play: "screens/playground.html",
 	home: "screens/home.html",
 	project: "screens/projects.html",
-	game: "https://dreamblader.github.io/dreamblade/",
+	game: { url: "https://dreamblader.github.io/dreamblade/" },
 };

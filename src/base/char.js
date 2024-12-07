@@ -28,6 +28,11 @@ export default class Char {
 		}
 	}
 
+	reset() {
+		this.block = false;
+		this.animate("idle");
+	}
+
 	jump() {
 		this.animate("jump");
 		const jumpPower = 45;

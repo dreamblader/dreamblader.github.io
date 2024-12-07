@@ -1,5 +1,8 @@
+import { CHANGE_PLACE_EVENT_NAME } from "../constants.js";
+
 export default class Place {
-	constructor(url) {
+	constructor(name, url) {
+		this.name = name;
 		this.url = url;
 		this.start = null;
 		this.restart = null;
@@ -7,7 +10,7 @@ export default class Place {
 	}
 
 	onStart() {
-		console.log("Place: " + this.url + " onStart");
+		console.log("Place: " + this.name + " onStart");
 		this.#setupExitButton();
 
 		if (typeof this.start === "function") {
@@ -16,17 +19,24 @@ export default class Place {
 	}
 
 	onRestart() {
-		console.log("Place: " + this.url + " onRestart");
+		console.log("Place: " + this.name + " onRestart");
 		if (typeof this.restart === "function") {
 			this.restart();
 		}
 	}
 
 	onEnd() {
-		console.log("Place: " + this.url + " onEnd");
+		console.log("Place: " + this.name + " onEnd");
 		if (typeof this.end === "function") {
 			this.end();
 		}
+	}
+
+	changeScreen(placeId) {
+		const event = new CustomEvent(CHANGE_PLACE_EVENT_NAME, {
+			detail: { screenId: placeId },
+		});
+		document.dispatchEvent(event);
 	}
 
 	#setupExitButton() {
@@ -36,7 +46,9 @@ export default class Place {
 		}
 	}
 
-	#exit() {}
+	#exit() {
+		console.log("EXIT");
+	}
 
 	#killExitButton() {
 		if (this.exit) {

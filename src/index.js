@@ -1,19 +1,13 @@
 import { toPxStyle } from "./utils/utils.js";
-import { SCREENS } from "./constants.js";
+import { SCREENS, CHANGE_PLACE_EVENT_NAME } from "./constants.js";
 import ScreenManager from "./base/screen-manager.js";
 
 //REFACTOR EVERYTHING TO MANAGER
 
 const manager = new ScreenManager(SCREENS);
-// window.onload = () => {
-
-// };
-
-// window.addEventListener("DOMContentLoaded", () => {
-// 	if (manager.currentScreen) {
-// 		manager.currentScreen.onStart();
-// 	}
-// });
+document.addEventListener(CHANGE_PLACE_EVENT_NAME, (e) => {
+	manager.changeScreen(e.detail.screenId);
+});
 
 function paintAt(posX, posY) {
 	const t = document.createElement("div");
@@ -25,8 +19,3 @@ function paintAt(posX, posY) {
 	t.style.left = toPxStyle(posX);
 	container.append(t);
 }
-
-//FIXME need to find a way to catch new elements when they get loaded
-// document.getElementById("exit").addEventListener("click", (event) => {
-// 	startTransition(transition, container, "start");
-// });

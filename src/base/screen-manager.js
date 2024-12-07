@@ -16,8 +16,8 @@ export default class ScreenManager {
 				return;
 			}
 
-			if (nextScreen.href.startsWith("http")) {
-				window.location.href = nextScreen.href;
+			if (nextScreen.url.startsWith("http")) {
+				window.location.href = nextScreen.url;
 				return;
 			} else if (nextScreen === this.currentScreen) {
 				this.currentScreen.onRestart();
