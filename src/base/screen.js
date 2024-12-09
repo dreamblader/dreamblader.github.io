@@ -1,4 +1,7 @@
 import { CHANGE_PLACE_EVENT_NAME } from "../constants.js";
+import { START_KEY } from "../screens/start/start.js";
+import { GM3_SPRITES } from "../constants.js";
+import Char from "./char.js";
 
 export default class Place {
 	constructor(name, url) {
@@ -7,11 +10,13 @@ export default class Place {
 		this.start = null;
 		this.restart = null;
 		this.end = null;
+		this.listeners = {};
 	}
 
 	onStart() {
 		console.log("Place: " + this.name + " onStart");
 		this.#setupExitButton();
+		this.#setupChar();
 
 		if (typeof this.start === "function") {
 			this.start();
@@ -27,6 +32,8 @@ export default class Place {
 
 	onEnd() {
 		console.log("Place: " + this.name + " onEnd");
+		this.char = null;
+
 		if (typeof this.end === "function") {
 			this.end();
 		}
@@ -41,18 +48,18 @@ export default class Place {
 
 	#setupExitButton() {
 		this.exit = document.getElementById("exit");
+		this.listeners.exit = (e) => {
+			this.changeScreen(START_KEY);
+		};
 		if (this.exit) {
-			exit.addEventListener("click", this.#exit);
+			exit.addEventListener("click", this.listeners.exit);
 		}
 	}
 
-	#exit() {
-		console.log("EXIT");
-	}
-
-	#killExitButton() {
-		if (this.exit) {
-			this.exit.removeEventListener("click", this.#exit);
+	#setupChar() {
+		const char_holder = document.getElementById("char");
+		if (char_holder) {
+			this.char = new Char(char_holder, GM3_SPRITES);
 		}
 	}
 }

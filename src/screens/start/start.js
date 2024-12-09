@@ -1,13 +1,12 @@
-import Char from "../../base/char.js";
-import { GM3_SPRITES } from "../../constants.js";
 import Place from "../../base/screen.js";
 
-const START = new Place("start", "src/screens/start/start.html");
+export const START_KEY = "start";
+const START_PATH = "src/screens/start/start.html";
+const START = new Place(START_KEY, START_PATH);
 START.start = onStart;
 START.restart = onRestart;
 
 function onStart() {
-	this.char = new Char(document.getElementById("char"), GM3_SPRITES);
 	setupBuildings.call(this);
 	window.addEventListener("click", (event) => {
 		windowClickEvent.call(this, event);

@@ -1,5 +1,6 @@
 import { toPxStyle, generateAnimationFrames } from "../utils/utils.js";
 
+//FIXME coming back to start make my guy invisible before animating him
 export default class Char {
 	constructor(holder, sprite) {
 		this.holder = holder;
