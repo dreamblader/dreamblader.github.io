@@ -1,6 +1,6 @@
 import SpriteAnimation from "./base/animation.js";
 import START, { START_KEY } from "./screens/start/start.js";
-import CV from "./screens/cv/cv.js";
+import CV, { CV_KEY } from "./screens/cv/cv.js";
 
 export const CHANGE_PLACE_EVENT_NAME = "change-place";
 
@@ -18,7 +18,7 @@ export const GM3_SPRITES = {
 //CLASS THIS
 export const SCREENS = {
 	[START_KEY]: START,
-	cv: CV,
+	[CV_KEY]: CV,
 	play: "screens/playground.html",
 	home: "screens/home.html",
 	project: "screens/projects.html",

@@ -17,10 +17,43 @@ body{
 
 .building{
     position: absolute;
-    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100px;
     height: 100px;
-    z-index: 0;
+}
+
+.building > img {
+    scale: 5;
+}
+
+.timeline{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 75%;
+    margin: auto;
+}
+
+.timeline:before { 
+    content: '';
+    position: absolute;
+    border-radius: 3px; 
+    border-bottom: 5px gray solid;
+    width: 75%;
+    z-index:0;
+}
+
+.time-dot{
+    background-color: gray;
+    padding: 10px 5px;
+    border-radius: 50%;
+    z-index:1;
+}
+
+.time-dot:not(:last-child){
+    margin-right: 10px;
 }
 
 #transition{
