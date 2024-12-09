@@ -25,8 +25,9 @@ export default class SpriteAnimation {
 			return;
 		}
 
+		object.style.backgroundImage = `url(${this.imageSrc})`;
+
 		if (!this.running) {
-			object.style.backgroundImage = `url(${this.imageSrc})`;
 			this.currentFrame = 0;
 
 			if (this.frameCount > 1) {

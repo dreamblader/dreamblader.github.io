@@ -32,10 +32,13 @@ export default class Place {
 
 	onEnd() {
 		console.log("Place: " + this.name + " onEnd");
-		this.char = null;
 
 		if (typeof this.end === "function") {
 			this.end();
+		}
+
+		if (this.char) {
+			this.char.free();
 		}
 	}
 
@@ -62,4 +65,6 @@ export default class Place {
 			this.char = new Char(char_holder, GM3_SPRITES);
 		}
 	}
+
+	//TODO create event listener removal from listener object
 }

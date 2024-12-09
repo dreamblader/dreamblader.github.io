@@ -1,6 +1,5 @@
 import { toPxStyle, generateAnimationFrames } from "../utils/utils.js";
 
-//FIXME coming back to start make my guy invisible before animating him
 export default class Char {
 	constructor(holder, sprite) {
 		this.holder = holder;
@@ -135,5 +134,15 @@ export default class Char {
 			y: rect.height / 2,
 		};
 		return pos;
+	}
+
+	free() {
+		this.holder = null;
+		this.sprite = null;
+		this.spriteHolder = null;
+		this.block = false;
+		if (this.currentAnimation !== undefined) {
+			this.currentAnimation.stop();
+		}
 	}
 }

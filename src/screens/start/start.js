@@ -5,16 +5,22 @@ const START_PATH = "src/screens/start/start.html";
 const START = new Place(START_KEY, START_PATH);
 START.start = onStart;
 START.restart = onRestart;
+START.end = onEnd;
 
 function onStart() {
 	setupBuildings.call(this);
-	window.addEventListener("click", (event) => {
+	this.listeners.anyClick = (event) => {
 		windowClickEvent.call(this, event);
-	});
+	};
+	window.addEventListener("click", this.listeners.anyClick);
 }
 
 function onRestart() {
 	this.char.reset();
+}
+
+function onEnd() {
+	window.removeEventListener("click", this.listeners.anyClick);
 }
 
 function setupBuildings() {
