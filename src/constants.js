@@ -1,6 +1,7 @@
 import SpriteAnimation from "./base/animation.js";
 import START, { START_KEY } from "./screens/start/start.js";
 import CV, { CV_KEY } from "./screens/cv/cv.js";
+import WORKING from "./screens/err/working.js";
 
 export const CHANGE_PLACE_EVENT_NAME = "change-place";
 
@@ -19,8 +20,8 @@ export const GM3_SPRITES = {
 export const SCREENS = {
 	[START_KEY]: START,
 	[CV_KEY]: CV,
-	play: "screens/playground.html",
-	home: "screens/home.html",
-	project: "screens/projects.html",
+	play: WORKING,
+	home: WORKING,
+	project: WORKING,
 	game: { url: "https://dreamblader.github.io/dreamblade/" },
 };

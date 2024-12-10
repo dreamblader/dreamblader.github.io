@@ -117,3 +117,10 @@ body{
     height: 100%;
     width: 100%;
 }
+
+@media (pointer: coarse){
+    .building > p{
+        opacity: 1;
+        top: -45%;
+    }
+}
