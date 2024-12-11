@@ -2,6 +2,7 @@ import { CHANGE_PLACE_EVENT_NAME } from "../constants.js";
 import { START_KEY } from "../screens/start/start.js";
 import { GM3_SPRITES } from "../constants.js";
 import Char from "./char.js";
+import { toPxStyle } from "../utils/utils.js";
 
 export default class Place {
 	constructor(name, url) {
@@ -56,6 +57,17 @@ export default class Place {
 			this.changeScreen(START_KEY);
 		};
 		if (this.exit) {
+			const img = document.createElement("img");
+			img.src = "assets/exit-door.png";
+			img.style.scale = 3;
+			img.style.transformOrigin = "top";
+			img.style.marginBottom = toPxStyle(30);
+			img.style.marginRight = toPxStyle(15);
+			img.style.marginLeft = toPxStyle(15);
+			const text = document.createElement("p");
+			text.innerHTML = "EXIT";
+			this.exit.appendChild(img);
+			this.exit.appendChild(text);
 			exit.addEventListener("click", this.listeners.exit);
 		}
 	}

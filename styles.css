@@ -80,8 +80,34 @@ body{
     margin-right: 10px;
 }
 
+#exit{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    padding: 5.5px 15px;
+    background-color: rgb(150, 150, 150);
+    border: 5px solid rgb(97, 97, 97);
+    font-family: pcSenior;
+    transform-origin: top;
+    width: fit-content;
+    color: white;
+    transition: background-color 1s;
+}
+
+#exit > p{
+    margin-bottom: 0;
+}
+
+#exit:hover{
+    background-color: rgb(97, 97, 97);
+}
+
 #transition{
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-color: transparent;
