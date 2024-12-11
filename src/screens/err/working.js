@@ -7,7 +7,7 @@ const WORKING = new Place(WORKING_KEY, WORKING_PATH);
 WORKING.start = function () {
 	this.char.holder.style.position = "static";
 	this.char.holder.style.scale = "1.5";
-	this.char.holder.style.marginTop = "10%";
+	this.char.holder.style.marginTop = "20px";
 	this.char.animate("jump");
 
 	const textHolder = document.getElementById("move-me");

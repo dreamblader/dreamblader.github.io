@@ -23,6 +23,8 @@ function onRestart() {
 }
 
 function onEnd() {
+	this.container.style.backgroundImage = "";
+	this.container.style.backgroundSize = "";
 	window.removeEventListener("click", this.listeners.anyClick);
 }
 
