@@ -1,0 +1,29 @@
+@keyframes wave {
+    50%{
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes rainbow {
+    0%{
+        color: red;
+    }
+    16% {
+        color: orange;
+    }
+    33%{
+        color: yellow;
+    }
+    50%{
+        color: green;
+    }
+    66%{
+        color: blue;
+    }
+    82%{
+        color: indigo;
+    }
+    100%{
+        color: violet;
+    }
+}
