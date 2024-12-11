@@ -1,4 +1,5 @@
 import Place from "../../base/screen.js";
+import { toPxStyle } from "../../utils/utils.js";
 
 export const START_KEY = "start";
 const START_PATH = "src/screens/start/start.html";
@@ -9,6 +10,8 @@ START.end = onEnd;
 
 function onStart() {
 	setupBuildings.call(this);
+	this.container.style.backgroundImage = "url(assets/grass.png)";
+	this.container.style.backgroundSize = toPxStyle(64);
 	this.listeners.anyClick = (event) => {
 		windowClickEvent.call(this, event);
 	};

@@ -11,6 +11,7 @@ export default class Place {
 		this.restart = null;
 		this.end = null;
 		this.listeners = {};
+		this.container = document.getElementById("container");
 	}
 
 	onStart() {
