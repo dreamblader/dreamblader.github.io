@@ -1,0 +1,49 @@
+{
+	"personal": {
+		"name": "Carlos Gabriel Luz Monnazzi",
+		"nacionality": "Brazilian",
+		"birthdate": "01/09/1993",
+		"intro": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+		"languages": [
+			{
+				"lang": "Portuguese (BR)",
+				"level": "Native",
+				"flag": "flag/resource"
+			},
+			{
+				"lang": "English",
+				"level": "C1 - Advanced",
+				"flag": "flag/resource"
+			}
+		]
+	},
+	"education": {
+		"institution": " UNESP – Instituto de Biociências, Letras e Ciências Exatas (IBILCE)",
+		"title": "Bachelor Degree in Computer Science",
+		"begin_time": "02/2011",
+		"end_time": "12/2017"
+	},
+	"experience": [
+		{
+			"title": "Android",
+			"company": "aFHF",
+			"begin_time": "02/2011",
+			"end_time": "12/2017",
+			"stuff": ["1", "2", "3", "4"]
+		}
+	],
+	"links": [
+		{
+			"name": "LinkedIn",
+			"link": "https://www.linkedin.com/in/carlos-gabriel-luz-monnazzi-340201156/"
+		},
+		{
+			"name": "GitHub",
+			"link": "https://github.com/dreamblader"
+		},
+		{
+			"name": "Gmail",
+			"link": "mailto:carlosgabrielmaster@gmail.com"
+		}
+	]
+}

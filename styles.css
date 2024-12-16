@@ -53,19 +53,32 @@ body{
 }
 
 .timeline{
+    position: absolute;
+    left: 30px;
     display: flex;
+    flex-direction: column-reverse;
     align-items: center;
     justify-content: space-between;
-    width: 75%;
+    height: 75%;
     margin: auto;
+}
+
+.timeline > .me{
+    position: absolute;
+    bottom: -10%;
+    text-align: center;
+    font-weight: 900;
+    background-color: gray;
+    padding: 5px;
+    border-radius: 10%;
 }
 
 .timeline:before { 
     content: '';
     position: absolute;
     border-radius: 3px; 
-    border-bottom: 5px gray solid;
-    width: 75%;
+    border-left:  5px gray solid;
+    height: 100%;
     z-index:0;
 }
 
@@ -76,8 +89,8 @@ body{
     z-index:1;
 }
 
-.time-dot:not(:last-child){
-    margin-right: 10px;
+.cv-content{
+    margin-left: 120px;
 }
 
 #exit{
@@ -102,6 +115,37 @@ body{
 
 #exit:hover{
     background-color: rgb(97, 97, 97);
+}
+
+.tutorial-box{
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    left: 25%;
+    bottom: 10px;
+    background-color: black;
+    font-family: pcSenior;
+    color: white;
+    padding: 10px;
+    z-index: 11;
+}
+
+.tutorial-box > p{
+    margin: 0;
+    width: 100%;
+    text-align: end;
+}
+
+.tutorial-box > p:hover{
+    color: red;
+}
+
+.tutorial{
+    background-color: black;
+    padding: 5px;
+    border: 5px solid white;
+    white-space: pre-line;
 }
 
 #transition{
@@ -143,6 +187,7 @@ body{
 #container{
     height: 100%;
     width: 100%;
+    overflow: hidden;
 }
 
 @media (pointer: coarse){

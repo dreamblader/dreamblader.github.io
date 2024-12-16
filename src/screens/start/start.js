@@ -4,6 +4,9 @@ import { toPxStyle } from "../../utils/utils.js";
 export const START_KEY = "start";
 const START_PATH = "src/screens/start/start.html";
 const START = new Place(START_KEY, START_PATH);
+START.tutorialMessage = `Hello and welcome to my 
+Personal Web GitHub Page.
+Feel free to click around to make me move and select a building to move to any section of this site`;
 START.start = onStart;
 START.restart = onRestart;
 START.end = onEnd;

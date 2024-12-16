@@ -12,6 +12,7 @@ export default class Place {
 		this.restart = null;
 		this.end = null;
 		this.listeners = {};
+		this.helpMe = true;
 		this.container = document.getElementById("container");
 	}
 
@@ -19,6 +20,7 @@ export default class Place {
 		console.log("Place: " + this.name + " onStart");
 		this.#setupExitButton();
 		this.#setupChar();
+		this.#setupTutorial();
 
 		if (typeof this.start === "function") {
 			this.start();
@@ -72,12 +74,42 @@ export default class Place {
 		}
 	}
 
+	#setupTutorial() {
+		if (this.helpMe && this.tutorialMessage) {
+			this.tutorial = document.createElement("div");
+			const exitTutorial = document.createElement("p");
+			const tutorialContent = document.createElement("div");
+			exitTutorial.innerHTML = "X";
+
+			tutorialContent.className = "tutorial";
+			this.tutorial.className = "tutorial-box";
+
+			let i = 0;
+			const textInterval = setInterval(() => {
+				if (i === this.tutorialMessage.length) {
+					clearInterval(textInterval);
+					return;
+				}
+				tutorialContent.innerHTML += this.tutorialMessage.charAt(i);
+				i++;
+			}, 50);
+
+			exitTutorial.addEventListener("click", (e) => {
+				this.helpMe = false;
+				this.tutorial.style.display = "none";
+				clearInterval(textInterval);
+			});
+
+			this.container.appendChild(this.tutorial);
+			this.tutorial.appendChild(exitTutorial);
+			this.tutorial.appendChild(tutorialContent);
+		}
+	}
+
 	#setupChar() {
 		const char_holder = document.getElementById("char");
 		if (char_holder) {
 			this.char = new Char(char_holder, GM3_SPRITES);
 		}
 	}
-
-	//TODO create event listener removal from listener object
 }
