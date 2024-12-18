@@ -1,8 +1,3 @@
-@font-face {
-    font-family: pcSenior;
-    src: url('fonts/pcsenior.ttf') format('truetype');
-}
-
 body{
     margin: 0;
     height: 100vh;
@@ -90,7 +85,37 @@ body{
 }
 
 .cv-content{
-    margin-left: 120px;
+    display: flex;
+    flex-direction: column;
+    width: 75%;
+    height: 75%;
+    background-color: green;
+    margin-left: 10%;
+    overflow: hidden;
+}
+
+.cv-content > #info-panel{
+    position: absolute;
+    font-family: Roboto;
+    margin-top: 10px;
+    padding: 15px;
+    left: 18%;
+    width: 60%;
+    max-height: 35%;
+    background-color: white;
+    border: 5px solid black;
+    border-radius: 5%;
+    z-index: 2;
+    white-space: pre-line;
+    transition: 0.5s;
+}
+
+.cv-content > floor {
+    position: relative;
+    bottom: 0;
+    background-color: red;
+    flex: 0 0 100%;
+    transition: 0.5s;
 }
 
 #exit{

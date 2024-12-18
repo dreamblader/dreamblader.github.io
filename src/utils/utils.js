@@ -17,4 +17,7 @@ export function generateAnimationFrames(imageURI, framesCount) {
 	return frames;
 }
 
-//
+export function getAge(date) {
+	const diff = new Date(new Date() - new Date(date));
+	return diff.getUTCFullYear() - 1970;
+}
