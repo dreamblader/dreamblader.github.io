@@ -29,8 +29,29 @@
 		{
 			"title": "Android",
 			"company": "aFHF",
-			"begin_time": "02/2011",
-			"end_time": "12/2017",
+			"begin_time": "09/2018",
+			"end_time": "09/2019",
+			"stuff": ["1", "2", "3", "4"]
+		},
+		{
+			"title": "Android",
+			"company": "VenturaLabs",
+			"begin_time": "12/2019",
+			"end_time": "10/2020",
+			"stuff": ["1", "2", "3", "4"]
+		},
+		{
+			"title": "Android",
+			"company": "Datum",
+			"begin_time": "10/2020",
+			"end_time": "04/2022",
+			"stuff": ["1", "2", "3", "4"]
+		},
+		{
+			"title": "Android",
+			"company": "Next",
+			"begin_time": "04/2022",
+			"end_time": "10/2024",
 			"stuff": ["1", "2", "3", "4"]
 		}
 	],

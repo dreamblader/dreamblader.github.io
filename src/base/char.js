@@ -66,16 +66,18 @@ export default class Char {
 		this.animate("walk");
 
 		const { x: myX, y: myY } = this.getPos();
-		const { x: xOffset, y: yOffset } = this.getCenterOffset();
-		this.changeDirection(myX <= posX ? 1 : -1);
+		const { x: xOffset, y: yOffset } = this.#getCenterOffset();
+		if (posX) {
+			this.changeDirection(myX <= posX ? 1 : -1);
+		}
 		const frames = [
 			{
 				left: toPxStyle(myX),
 				top: toPxStyle(myY),
 			},
 			{
-				left: toPxStyle(posX - xOffset),
-				top: toPxStyle(posY - yOffset),
+				left: posX ? toPxStyle(posX - xOffset) : toPxStyle(myX),
+				top: posY ? toPxStyle(posY - yOffset) : toPxStyle(myY),
 			},
 		];
 		const duration = {
@@ -118,6 +120,8 @@ export default class Char {
 		return this.holder.getBoundingClientRect();
 	}
 
+	getOriginPos() {}
+
 	getPos() {
 		const rect = this.getRect();
 		const pos = {
@@ -127,7 +131,7 @@ export default class Char {
 		return pos;
 	}
 
-	getCenterOffset() {
+	#getCenterOffset() {
 		let rect = this.getRect();
 		const pos = {
 			x: rect.width / 2,

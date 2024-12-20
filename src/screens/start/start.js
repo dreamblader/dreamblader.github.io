@@ -32,7 +32,7 @@ function onEnd() {
 }
 
 function setupBuildings() {
-	this.buildings = document.getElementsByClassName("building");
+	this.buildings = document.getElementsByTagName("building");
 
 	Array.from(this.buildings).forEach((element) => {
 		element.addEventListener("click", (event) => {
