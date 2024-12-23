@@ -76,8 +76,9 @@ export default class Char {
 				top: toPxStyle(myY),
 			},
 			{
-				left: posX ? toPxStyle(posX - xOffset) : toPxStyle(myX),
-				top: posY ? toPxStyle(posY - yOffset) : toPxStyle(myY),
+				left:
+					posX !== null ? toPxStyle(posX - xOffset) : toPxStyle(myX),
+				top: posY !== null ? toPxStyle(posY - yOffset) : toPxStyle(myY),
 			},
 		];
 		const duration = {

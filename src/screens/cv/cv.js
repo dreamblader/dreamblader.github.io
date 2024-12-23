@@ -48,18 +48,44 @@ function setupMiniChar() {
 function setupPage() {
 	this.timeline = document.getElementsByTagName("timeline")[0];
 	for (let e of this.cv.education) {
-		addTimeDot.call(this, e.begin_time.split("/")[1]);
+		this.lastYear = e.begin_time.split("/")[1];
+		addTimeDot.call(this, this.lastYear);
 	}
 	for (let e of this.cv.experience) {
-		addTimeDot.call(this, e.begin_time.split("/")[1]);
+		this.lastYear = e.begin_time.split("/")[1];
+		addTimeDot.call(this, this.lastYear);
 	}
 
-	addTimeDot.call(this, new Date().getFullYear());
+	let currentYear = new Date().getFullYear();
+
+	if (this.lastYear !== currentYear) {
+		addTimeDot.call(this, currentYear);
+	}
+
+	getFloorYTreshold.call(this);
 
 	this.timeline.addEventListener("click", (e) => {
+		timelineClick.call(this, e.target.className, e.y);
+
 		this.mini_char.clickIn(null, e.y);
 	});
-	//SetupYTresholdToMoveFloor
+}
+
+function timelineClick(targetClass, targetY) {
+	if (targetClass === "me") {
+		setCVLevel.call(this, 0);
+	} else {
+		let level = 0;
+		for (let t of this.yTreshholds) {
+			console.log(targetY);
+			if (targetY >= t) {
+				setCVLevel.call(this, level);
+				break;
+			} else {
+				level++;
+			}
+		}
+	}
 }
 
 function addTimeDot(year) {
@@ -68,10 +94,28 @@ function addTimeDot(year) {
 	this.timeline.appendChild(dot);
 }
 
+function getFloorYTreshold() {
+	const dots = document.getElementsByTagName("time-dot");
+	this.yTreshholds = [];
+	for (let dot of dots) {
+		if (dot.innerHTML <= this.lastYear) {
+			let { y, height } = dot.getBoundingClientRect();
+			this.yTreshholds.push(y + height);
+		} else {
+			this.yTreshholds.push(0);
+			break;
+		}
+	}
+}
+
 function setCVLevel(level) {
-	switch (level) {
-		case 0:
-			personalLevel.call(this);
+	console.log(level);
+	if (level === 0) {
+		personalLevel.call(this);
+	} else if (level === 1) {
+		educationLevel.call(this);
+	} else {
+		professionalLevel.call(this, level - 2);
 	}
 }
 
@@ -88,6 +132,14 @@ function personalLevel() {
 	
 	I can speak:
 	${getLanguages(this.cv.personal.languages)}`;
+}
+
+function educationLevel() {
+	//TODO
+}
+
+function professionalLevel() {
+	//TODO
 }
 
 function getLanguages(langs) {
