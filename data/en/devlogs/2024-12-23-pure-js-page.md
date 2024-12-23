@@ -40,4 +40,4 @@ Want to check my Github Page? Feel free to take a peek:
 
 **TAGS**
 
-#Javascript #Devlog #Framewokr #WebDev
+#javascript #devlog #framework #Webdev #programming #learning
