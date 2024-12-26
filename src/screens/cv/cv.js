@@ -1,7 +1,7 @@
 import Place from "../../base/screen.js";
 import Char from "../../base/char.js";
 import { GM3_SPRITES } from "../../constants.js";
-import { getAge, toPxStyle } from "../../utils/utils.js";
+import { getAge, toPercentageStyle, toPxStyle } from "../../utils/utils.js";
 
 export const CV_KEY = "cv";
 const CV_PATH = "src/screens/cv/cv.html";
@@ -12,12 +12,12 @@ CV.tutorialMessage = `This is my Interactive CV. Click on the timeline on the le
 	This module is also under construction. But if you're seeing this that means that I'm currently working on it.
 
 	Backlog:
-	- Make the timeline interact with the fecthed API data from data dir 
-	- Make the page look cool and animated`;
+	- Make the floors move in between
+	- Make backgrounds for each floor and maybe a recolor for the job ones (check tint?)
+	- Make letters 'jumble' when moving floors`;
 CV.start = onStart;
 
 function onStart() {
-	this.info = document.getElementById("info-panel");
 	setupMiniChar.call(this);
 	fetch("data/en/cv.json")
 		.then((res) => {
@@ -37,7 +37,7 @@ function onStart() {
 }
 
 function setupMiniChar() {
-	const char_holder = document.getElementById("mini-char");
+	const char_holder = this.binding.miniChar;
 	let mini_gm3 = { ...GM3_SPRITES };
 	mini_gm3.scale = 2;
 	this.mini_char = new Char(char_holder, mini_gm3);
@@ -47,13 +47,16 @@ function setupMiniChar() {
 
 function setupPage() {
 	this.timeline = document.getElementsByTagName("timeline")[0];
+	addLevel("personal");
 	for (let e of this.cv.education) {
 		this.lastYear = e.begin_time.split("/")[1];
 		addTimeDot.call(this, this.lastYear);
+		addLevel("education");
 	}
 	for (let e of this.cv.experience) {
 		this.lastYear = e.begin_time.split("/")[1];
 		addTimeDot.call(this, this.lastYear);
+		addLevel("job");
 	}
 
 	let currentYear = new Date().getFullYear();
@@ -77,7 +80,6 @@ function timelineClick(targetClass, targetY) {
 	} else {
 		let level = 0;
 		for (let t of this.yTreshholds) {
-			console.log(targetY);
 			if (targetY >= t) {
 				setCVLevel.call(this, level);
 				break;
@@ -92,6 +94,13 @@ function addTimeDot(year) {
 	const dot = document.createElement("time-dot");
 	dot.innerHTML = year;
 	this.timeline.appendChild(dot);
+}
+
+function addLevel(type) {
+	const content = document.getElementsByClassName("cv-content")[0];
+	const level = document.createElement("floor");
+	level.innerHTML = type;
+	content.appendChild(level);
 }
 
 function getFloorYTreshold() {
@@ -109,7 +118,12 @@ function getFloorYTreshold() {
 }
 
 function setCVLevel(level) {
-	console.log(level);
+	if (this.currentLevel === level) {
+		return;
+	}
+
+	moveFloors.call(this, level);
+
 	if (level === 0) {
 		personalLevel.call(this);
 	} else if (level === 1) {
@@ -117,29 +131,66 @@ function setCVLevel(level) {
 	} else {
 		professionalLevel.call(this, level - 2);
 	}
+
+	this.currentLevel = level;
 }
 
 function personalLevel() {
-	this.info.style.backgroundColor = "white";
-	this.info.style.borderColor = "black";
-	this.info.style.borderRadius = "5%";
-	this.info.innerHTML = `<h3>Personal Info:</h3>
-	<b>Name:</b> ${this.cv.personal.name}
-	<b>Nationality:</b> ${this.cv.personal.nacionality}
-	<b>Age:</b> ${getAge(this.cv.personal.birthdate)}
+	const personalInfo = this.cv.personal;
+	this.binding.infoPanel.style.backgroundColor = "white";
+	this.binding.infoPanel.style.borderColor = "black";
+	this.binding.infoPanel.style.borderRadius = toPercentageStyle(5);
+	this.binding.infoPanel.style.color = "black";
+	this.binding.infoPanel.style.fontFamily = "Roboto";
+	this.binding.infoPanel.innerHTML = `<h3>Personal Info:</h3>
+	<b>Name:</b> ${personalInfo.name}
+	<b>Nationality:</b> ${personalInfo.nacionality}
+	<b>Age:</b> ${getAge(personalInfo.birthdate)}
 
-	${this.cv.personal.intro}
+	${personalInfo.intro}
 	
 	I can speak:
-	${getLanguages(this.cv.personal.languages)}`;
+	${getLanguages(personalInfo.languages)}`;
 }
 
 function educationLevel() {
-	//TODO
+	const educationInfo = this.cv.education[0];
+	this.binding.infoPanel.style.backgroundColor = "rgb(39, 76, 67)";
+	this.binding.infoPanel.style.borderColor = "brown";
+	this.binding.infoPanel.style.borderRadius = "0";
+	this.binding.infoPanel.style.color = "white";
+	this.binding.infoPanel.style.fontFamily = "Eraser";
+	this.binding.infoPanel.innerHTML = `<h3>Education:</h3>
+	<b>Graduate at:</b> 
+	${educationInfo.institution}
+
+	<b>With:</b> 
+	${educationInfo.title}
+
+	<b>Started:</b> ${educationInfo.begin_time}
+	<b>Ended:</b> ${educationInfo.end_time}`;
 }
 
-function professionalLevel() {
-	//TODO
+function professionalLevel(relativeLevel) {
+	const professionalInfo = this.cv.experience[relativeLevel];
+	this.binding.infoPanel.style.backgroundColor = "black";
+	this.binding.infoPanel.style.borderColor = "gray";
+	this.binding.infoPanel.style.borderRadius = "0";
+	this.binding.infoPanel.style.color = "white";
+	this.binding.infoPanel.style.fontFamily = "Roboto";
+	this.binding.infoPanel.innerHTML = `<h3>${professionalInfo.company}</h3>
+	${professionalInfo.title}
+
+	<ul>
+	${getAllJobTopicsAsLi(professionalInfo.stuff)}
+	</ul>
+
+	<b>Started:</b> ${professionalInfo.begin_time}
+	<b>Ended:</b> ${professionalInfo.end_time}`;
+}
+
+function moveFloors(level) {
+	const floors = document.getElementsByTagName("floor");
 }
 
 function getLanguages(langs) {
@@ -148,6 +199,14 @@ function getLanguages(langs) {
 		res += `<img src='${l.flag}' style='scale:2; margin:10px 20px; transform-origin: top'/>${l.lang} (${l.level}) \n`;
 	}
 	return res;
+}
+
+function getAllJobTopicsAsLi(topics) {
+	let result = "";
+	for (let t of topics) {
+		result += `<li>${t}</li>`;
+	}
+	return result;
 }
 
 //TODO add bottom + 100% to the elements to scroll them to the level that you need
