@@ -10,13 +10,11 @@ WORKING.start = function () {
 	this.char.holder.style.marginTop = "20px";
 	this.char.animate("jump");
 
-	const textHolder = document.getElementById("move-me");
-	attachAnimatedTextTo(textHolder, "Under Construction")
+	attachAnimatedTextTo(this.binding.moveMe, "Under Construction")
 		.animate("wave")
 		.animate("rainbow", 3);
 
-	const warning = document.getElementById("warning-sign");
-	warning.animate(
+	this.binding.warningSign.animate(
 		[
 			{
 				rotate: "0deg",
