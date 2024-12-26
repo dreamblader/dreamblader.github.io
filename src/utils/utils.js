@@ -2,8 +2,21 @@
 
 // }
 
+const STYLES = {
+	PX: "px",
+	PERCENTAGE: "%",
+};
+
 export function toPxStyle(val) {
-	return val + "px";
+	return toStyle(val, STYLES.PX);
+}
+
+export function toPercentageStyle(val) {
+	return toStyle(val, STYLES.PERCENTAGE);
+}
+
+function toStyle(val, style) {
+	return val + style;
 }
 
 export function generateAnimationFrames(imageURI, framesCount) {
@@ -20,4 +33,13 @@ export function generateAnimationFrames(imageURI, framesCount) {
 export function getAge(date) {
 	const diff = new Date(new Date() - new Date(date));
 	return diff.getUTCFullYear() - 1970;
+}
+
+export function toCamelCase(val) {
+	let words = val.split(/[_|-]/g);
+	let result = words.shift();
+	for (let w of words) {
+		result += w.charAt(0).toUpperCase() + w.slice(1);
+	}
+	return result;
 }

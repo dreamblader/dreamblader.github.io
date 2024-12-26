@@ -2,7 +2,7 @@ import { CHANGE_PLACE_EVENT_NAME } from "../constants.js";
 import { START_KEY } from "../screens/start/start.js";
 import { GM3_SPRITES } from "../constants.js";
 import Char from "./char.js";
-import { toPxStyle } from "../utils/utils.js";
+import { toCamelCase, toPxStyle } from "../utils/utils.js";
 
 export default class Place {
 	constructor(name, url) {
@@ -13,11 +13,13 @@ export default class Place {
 		this.end = null;
 		this.listeners = {};
 		this.helpMe = true;
+		this.binding = {};
 		this.container = document.getElementById("container");
 	}
 
 	onStart() {
 		console.log("Place: " + this.name + " onStart");
+		this.#setupBindings();
 		this.#setupExitButton();
 		this.#setupChar();
 		this.#setupTutorial();
@@ -53,12 +55,20 @@ export default class Place {
 		document.dispatchEvent(event);
 	}
 
+	#setupBindings() {
+		const elements = this.container.querySelectorAll("[id]");
+		for (let e of elements) {
+			let key = toCamelCase(e.id);
+			this.binding[key] = e;
+		}
+	}
+
 	#setupExitButton() {
-		this.exit = document.getElementById("exit");
+		const exit = this.binding.exit;
 		this.listeners.exit = (e) => {
 			this.changeScreen(START_KEY);
 		};
-		if (this.exit) {
+		if (exit) {
 			const img = document.createElement("img");
 			img.src = "assets/exit-door.png";
 			img.style.scale = 3;
@@ -68,8 +78,8 @@ export default class Place {
 			img.style.marginLeft = toPxStyle(15);
 			const text = document.createElement("p");
 			text.innerHTML = "EXIT";
-			this.exit.appendChild(img);
-			this.exit.appendChild(text);
+			exit.appendChild(img);
+			exit.appendChild(text);
 			exit.addEventListener("click", this.listeners.exit);
 		}
 	}
@@ -107,7 +117,7 @@ export default class Place {
 	}
 
 	#setupChar() {
-		const char_holder = document.getElementById("char");
+		const char_holder = this.binding.char;
 		if (char_holder) {
 			this.char = new Char(char_holder, GM3_SPRITES);
 		}
