@@ -43,3 +43,16 @@ export function toCamelCase(val) {
 	}
 	return result;
 }
+
+export function generateRandomFrom(token, length) {
+	let res = "";
+	for (let i = 0; i < length; i++) {
+		let t = randomInt(0, token.length);
+		res += token.charAt(t);
+	}
+	return res;
+}
+
+export function randomInt(min, max) {
+	return Math.floor(Math.random() * (max - min) + min);
+}
