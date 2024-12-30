@@ -1,7 +1,13 @@
 import Place from "../../base/screen.js";
 import Char from "../../base/char.js";
 import { GM3_SPRITES } from "../../constants.js";
-import { getAge, toPercentageStyle, toPxStyle } from "../../utils/utils.js";
+import {
+	generateRandomFrom,
+	getAge,
+	randomInt,
+	toPercentageStyle,
+	toPxStyle,
+} from "../../utils/utils.js";
 
 export const CV_KEY = "cv";
 const CV_PATH = "src/screens/cv/cv.html";
@@ -12,13 +18,12 @@ CV.tutorialMessage = `This is my Interactive CV. Click on the timeline on the le
 	This module is also under construction. But if you're seeing this that means that I'm currently working on it.
 
 	Backlog:
-	- Make the floors move in between
-	- Make backgrounds for each floor and maybe a recolor for the job ones (check tint?)
-	- Make letters 'jumble' when moving floors`;
+	- Make backgrounds for each floor and maybe a recolor for the job ones (check tint?)`;
 CV.start = onStart;
 
 function onStart() {
 	setupMiniChar.call(this);
+	this.currentLevel = -1;
 	fetch("data/en/cv.json")
 		.then((res) => {
 			if (!res.ok) {
@@ -122,14 +127,20 @@ function setCVLevel(level) {
 		return;
 	}
 
-	moveFloors.call(this, level);
-
 	if (level === 0) {
 		personalLevel.call(this);
 	} else if (level === 1) {
 		educationLevel.call(this);
 	} else {
 		professionalLevel.call(this, level - 2);
+	}
+
+	if (this.currentLevel === -1) {
+		this.binding.infoPanel.innerHTML = this.info;
+	} else {
+		moveFloors.call(this, level).then(() => {
+			this.binding.infoPanel.innerHTML = this.info;
+		});
 	}
 
 	this.currentLevel = level;
@@ -142,7 +153,7 @@ function personalLevel() {
 	this.binding.infoPanel.style.borderRadius = toPercentageStyle(5);
 	this.binding.infoPanel.style.color = "black";
 	this.binding.infoPanel.style.fontFamily = "Roboto";
-	this.binding.infoPanel.innerHTML = `<h3>Personal Info:</h3>
+	this.info = `<h3>Personal Info:</h3>
 	<b>Name:</b> ${personalInfo.name}
 	<b>Nationality:</b> ${personalInfo.nacionality}
 	<b>Age:</b> ${getAge(personalInfo.birthdate)}
@@ -160,7 +171,7 @@ function educationLevel() {
 	this.binding.infoPanel.style.borderRadius = "0";
 	this.binding.infoPanel.style.color = "white";
 	this.binding.infoPanel.style.fontFamily = "Eraser";
-	this.binding.infoPanel.innerHTML = `<h3>Education:</h3>
+	this.info = `<h3>Education:</h3>
 	<b>Graduate at:</b> 
 	${educationInfo.institution}
 
@@ -178,7 +189,7 @@ function professionalLevel(relativeLevel) {
 	this.binding.infoPanel.style.borderRadius = "0";
 	this.binding.infoPanel.style.color = "white";
 	this.binding.infoPanel.style.fontFamily = "Roboto";
-	this.binding.infoPanel.innerHTML = `<h3>${professionalInfo.company}</h3>
+	this.info = `<h3>${professionalInfo.company}</h3>
 	${professionalInfo.title}
 
 	<ul>
@@ -190,7 +201,47 @@ function professionalLevel(relativeLevel) {
 }
 
 function moveFloors(level) {
-	const floors = document.getElementsByTagName("floor");
+	return new Promise((res, rej) => {
+		const floors = document.getElementsByTagName("floor");
+		for (let f of floors) {
+			f.style.top = toPercentageStyle(level * 100);
+		}
+
+		const randomLengths = {
+			title: randomInt(30, 5),
+			body: randomInt(250, 750),
+		};
+		const jumbleInterval = setInterval(() => {
+			jumbleLetters.call(this, randomLengths.title, randomLengths.body);
+		}, 100);
+
+		floors[0].addEventListener("transitionend", () => {
+			clearInterval(jumbleInterval);
+			res();
+		});
+	});
+}
+
+function jumbleLetters(titleRandomLength, bodyRandomLegth) {
+	const letters = "abcdefghijklmnopqrsuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	const numbers = "0123456789";
+	const symbols = "?!=@#$%&*+";
+
+	const title = `<h3>${generateRandomFrom(letters, titleRandomLength)} </h3>`;
+	const body = generateRandomFrom(
+		letters + numbers + symbols,
+		bodyRandomLegth
+	);
+	const dates = `<b>Started:</b> ${generateRandomFrom(
+		numbers,
+		2
+	)}/${generateRandomFrom(numbers, 4)}
+	<b>Ended:</b> ${generateRandomFrom(numbers, 2)}/${generateRandomFrom(
+		numbers,
+		4
+	)}`;
+
+	this.binding.infoPanel.innerHTML = title + "\n" + body + "\n\n" + dates;
 }
 
 function getLanguages(langs) {

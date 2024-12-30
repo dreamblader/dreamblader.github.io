@@ -84,8 +84,9 @@ time-dot{
 }
 
 .cv-content{
+    position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     width: 75%;
     height: 75%;
     background-color: green;
@@ -95,16 +96,18 @@ time-dot{
 
 .cv-content > #info-panel{
     position: absolute;
-    margin-top: 10px;
+    margin-top: 15px;
     padding: 15px;
-    left: 18%;
-    width: 60%;
+    top: 0;
+    left: 8%;
+    width: 80%;
     min-height: 25%;
     background-color: white;
     border: 5px solid black;
     border-radius: 5%;
     z-index: 2;
     white-space: pre-line;
+    word-wrap: break-word;
     transition: 0.5s;
 }
 
@@ -115,10 +118,10 @@ time-dot{
 
 .cv-content > floor {
     position: relative;
-    bottom: 0;
+    top: 0;
     background-color: red;
     flex: 0 0 100%;
-    transition: 0.5s;
+    transition: 1s;
 }
 
 #exit{
@@ -178,6 +181,7 @@ time-dot{
 
 #transition{
     position: absolute;
+    pointer-events: none;
     top: 0;
     left: 0;
     width: 100%;
