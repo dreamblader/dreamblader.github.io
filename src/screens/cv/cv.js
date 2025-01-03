@@ -260,6 +260,4 @@ function getAllJobTopicsAsLi(topics) {
 	return result;
 }
 
-//TODO add bottom + 100% to the elements to scroll them to the level that you need
-
 export default CV;
