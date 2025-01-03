@@ -3,12 +3,12 @@ import { toPxStyle } from "../../utils/utils.js";
 
 export const START_KEY = "start";
 const START_PATH = "src/screens/start/start.html";
-const TUTORIAL = `Hello and welcome to my 
+const START_TUTORIAL = `Hello and welcome to my 
 Personal Web GitHub Page.
 Feel free to click around to make me move and select a building to move to any section of this site`;
 
 const START = new Place(START_KEY, START_PATH);
-START.tutorialMessage = TUTORIAL;
+START.tutorialMessage = START_TUTORIAL;
 START.start = onStart;
 START.restart = onRestart;
 START.end = onEnd;
