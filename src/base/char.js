@@ -107,6 +107,10 @@ export default class Char {
 	}
 
 	animate(name) {
+		if (this.currentAnimation === this.sprite.animations[name]) {
+			return;
+		}
+
 		if (this.currentAnimation !== undefined) {
 			this.currentAnimation.stop();
 		}
