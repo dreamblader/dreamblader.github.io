@@ -3,7 +3,7 @@
 		"name": "Carlos Gabriel Luz Monnazzi",
 		"nacionality": "Brazilian",
 		"birthdate": "1993-09-01",
-		"intro": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+		"intro": "Developer with 6 years of experience, possessing a sharp logic, creativity and the ability to find innovative and effective solutions to software problems. Extensive knowledge of agile methodologies and the main development languages and technologies, such as Java, Kotlin, Javascript, Typescript, C# and Python",
 		"languages": [
 			{
 				"lang": "Portuguese (BR)",
@@ -31,27 +31,58 @@
 			"company": "aFHF",
 			"begin_time": "09/2018",
 			"end_time": "09/2019",
-			"stuff": ["1", "2", "3", "4"]
+			"stuff": [
+				"Developed Java custom decoder script that received byte information and processed into user-readable data",
+				"Developed a prototype checklist Android application using Java for AR device called Vuzix",
+				"Designed Requirement Documents for the development team based on client request",
+				"Maintenance and technical support for company applications"
+			]
 		},
 		{
-			"title": "Android",
+			"title": "Junior Mobile Engineer",
 			"company": "VenturaLabs",
 			"begin_time": "12/2019",
 			"end_time": "10/2020",
-			"stuff": ["1", "2", "3", "4"]
+			"stuff": [
+				"Developed from zero to V1 the Qualidoc application using Model-View-ViewModel (MVVM) Architecture alongside Retrofit, Kotlin Coroutines and LiveData for REST API calls",
+				"Integrated the application REST calls with the Oracle Commerce Cloud API solution",
+				"Developed integrated payment with Google Pay and Oracle Commerce Cloud payment API",
+				"Developed custom RecyclerViews using AirBNB Epoxy library"
+			]
 		},
 		{
-			"title": "Android",
+			"title": "Mid Mobile Engineer",
 			"company": "Datum",
 			"begin_time": "10/2020",
 			"end_time": "04/2022",
-			"stuff": ["1", "2", "3", "4"]
+			"stuff": [
+				"Developed many features for Digio android application with Model-View-ViewModel (MVVM) architecture using Retrofit, LiveData and Kotlin Coroutines to consume REST calls.",
+				"Refactored Kotlin Synthetics code to JetPack DataBind and ViewBind",
+				"Developed many features for Renner shopkeeper android application with Model-View-Presenter (MVP) architecture using Retrofit, LiveData and Rx to consume REST calls.",
+				"Developed YAML experimental pipelines to better build time of Renner internal applications"
+			]
 		},
 		{
-			"title": "Android",
+			"title": "Senior Mobile Engineer",
 			"company": "Next",
 			"begin_time": "04/2022",
 			"end_time": "10/2024",
+			"stuff": [
+				"Modularization of the application monolith",
+				"Developed in-app features with Model-View-ViewModel (MVVM) architecture using Retrofit, LiveData and Rx to consume REST calls.",
+				"Designed and introduced Behavior-Driven Development (BDD) Unit Tests for the main application",
+				"Designed custom Android lint rules for company apps",
+				"Designed an application interface connection module using OKHTTP",
+				"Reduced 80% of Crashlytics fatal errors",
+				"Addressed and resolved multiple main thread I/O operations resulting in ANR (Application Not Responding) issues",
+				"Conducted comprehensive code reviews, focusing in best practices and code quality"
+			]
+		},
+		{
+			"title": "Mobile Engineer",
+			"company": "Conquest One",
+			"begin_time": "12/2024",
+			"end_time": "Current",
 			"stuff": ["1", "2", "3", "4"]
 		}
 	],

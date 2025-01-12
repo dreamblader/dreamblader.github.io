@@ -59,7 +59,7 @@ timeline{
 
 timeline > .me{
     position: absolute;
-    bottom: -10%;
+    bottom: -85px;
     text-align: center;
     font-weight: 900;
     background-color: gray;

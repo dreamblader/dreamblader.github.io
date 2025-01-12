@@ -13,12 +13,7 @@ export const CV_KEY = "cv";
 const CV_PATH = "src/screens/cv/cv.html";
 const CV = new Place(CV_KEY, CV_PATH);
 CV.tutorialMessage = `This is my Interactive CV. Click on the timeline on the left to
-	get my education and professional experiences from that period of time.
-
-	This module is also under construction. But if you're seeing this that means that I'm currently working on it.
-
-	Backlog:
-	- Make backgrounds for each floor and maybe a recolor for the job ones (check tint?)`;
+	get my education and professional experiences from that period of time.`;
 CV.start = onStart;
 
 function onStart() {
@@ -46,7 +41,7 @@ function setupMiniChar() {
 	let mini_gm3 = { ...GM3_SPRITES };
 	mini_gm3.scale = 2;
 	this.mini_char = new Char(char_holder, mini_gm3);
-	this.mini_char.holder.style.top = "785px";
+	this.mini_char.holder.style.top = "85%";
 	this.mini_char.holder.style.left = "30px";
 }
 
