@@ -188,7 +188,6 @@ time-dot{
     height: 100%;
     background-color: transparent;
     z-index: 20;
-    visibility: hidden;
 }
 
 #cv{

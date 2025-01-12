@@ -13,6 +13,7 @@ export default class ScreenManager {
 
 		this.#startFadeTransition().then((t) => {
 			if (!nextScreen) {
+				t.reverse();
 				return;
 			}
 
@@ -21,32 +22,35 @@ export default class ScreenManager {
 				return;
 			} else if (nextScreen === this.currentScreen) {
 				this.currentScreen.onRestart();
+				t.reverse();
 			} else {
 				this.currentScreen.onEnd();
-				this.#goToScreen(nextScreen);
+				this.#goToScreen(nextScreen).then(() => {
+					t.reverse();
+				});
 			}
-
-			t.reverse();
-			t.onfinish = () => {
-				transition.style.visibility = "hidden";
-			};
 		});
 	}
 
 	#goToScreen(nextScreen) {
-		addToTarget(this.container, nextScreen.url)
-			.then(
-				() => {
-					nextScreen.onStart();
-					this.currentScreen = nextScreen;
-				},
-				() => {
-					this.currentScreen.onRestart();
-				}
-			)
-			.catch((e) => {
-				console.error(e);
-			});
+		return new Promise((res, rej) => {
+			addToTarget(this.container, nextScreen.url)
+				.then(
+					() => {
+						nextScreen.onStart();
+						this.currentScreen = nextScreen;
+						res();
+					},
+					() => {
+						this.currentScreen.onRestart();
+						res();
+					}
+				)
+				.catch((e) => {
+					console.error(e);
+					rej();
+				});
+		});
 	}
 
 	#startFadeTransition() {
@@ -58,7 +62,6 @@ export default class ScreenManager {
 			duration: 1000,
 			fill: "forwards",
 		};
-		transition.style.visibility = "visible";
 		return new Promise((res, rej) => {
 			const t = transition.animate(frames, duration);
 			t.onfinish = (e) => {
