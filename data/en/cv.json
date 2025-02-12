@@ -39,39 +39,36 @@
 			]
 		},
 		{
-			"title": "Junior Mobile Engineer",
+			"title": "Junior Software Engineer",
 			"company": "VenturaLabs",
 			"begin_time": "12/2019",
 			"end_time": "10/2020",
 			"stuff": [
-				"Developed from zero to V1 the Qualidoc application using Model-View-ViewModel (MVVM) Architecture alongside Retrofit, Kotlin Coroutines and LiveData for REST API calls",
+				"Developed from zero to V1 the Qualidoc mobile application",
 				"Integrated the application REST calls with the Oracle Commerce Cloud API solution",
-				"Developed integrated payment with Google Pay and Oracle Commerce Cloud payment API",
-				"Developed custom RecyclerViews using AirBNB Epoxy library"
+				"Developed integrated payment with Google Pay and Oracle Commerce Cloud payment API"
 			]
 		},
 		{
-			"title": "Mid Mobile Engineer",
+			"title": "Software Engineer",
 			"company": "Datum",
 			"begin_time": "10/2020",
 			"end_time": "04/2022",
 			"stuff": [
 				"Developed many features for Digio android application with Model-View-ViewModel (MVVM) architecture using Retrofit, LiveData and Kotlin Coroutines to consume REST calls.",
-				"Refactored Kotlin Synthetics code to JetPack DataBind and ViewBind",
 				"Developed many features for Renner shopkeeper android application with Model-View-Presenter (MVP) architecture using Retrofit, LiveData and Rx to consume REST calls.",
 				"Developed YAML experimental pipelines to better build time of Renner internal applications"
 			]
 		},
 		{
-			"title": "Senior Mobile Engineer",
+			"title": "Senior Software Engineer",
 			"company": "Next",
 			"begin_time": "04/2022",
 			"end_time": "10/2024",
 			"stuff": [
 				"Modularization of the application monolith",
-				"Developed in-app features with Model-View-ViewModel (MVVM) architecture using Retrofit, LiveData and Rx to consume REST calls.",
 				"Designed and introduced Behavior-Driven Development (BDD) Unit Tests for the main application",
-				"Designed custom Android lint rules for company apps",
+				"Designed custom lint rules for company apps",
 				"Designed an application interface connection module using OKHTTP",
 				"Reduced 80% of Crashlytics fatal errors",
 				"Addressed and resolved multiple main thread I/O operations resulting in ANR (Application Not Responding) issues",
@@ -79,11 +76,17 @@
 			]
 		},
 		{
-			"title": "Mobile Engineer",
+			"title": "Senior Software Engineer",
 			"company": "Conquest One",
 			"begin_time": "12/2024",
 			"end_time": "Current",
-			"stuff": ["1", "2", "3", "4"]
+			"stuff": [
+				"Create new features for company applications",
+				"Develop Unit Tests",
+				"Maintain application modules",
+				"Discover and fix production bugs",
+				"Automate Integrated tests with Selenium and Appium"
+			]
 		}
 	],
 	"links": [
