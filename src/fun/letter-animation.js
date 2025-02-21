@@ -1,4 +1,4 @@
-import { toPxStyle } from "../utils/utils.js";
+import { toPxStyle } from "../utils.js";
 
 export function attachAnimatedTextTo(holder, text) {
 	let spacingPx = 20;

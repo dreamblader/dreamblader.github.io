@@ -1,0 +1,91 @@
+.cv-content {
+	position: relative;
+	display: flex;
+	flex-direction: column-reverse;
+	width: 75%;
+	height: 75%;
+	background-color: green;
+	margin-left: 10%;
+	overflow: hidden;
+}
+
+.cv-content > #info-panel {
+	position: absolute;
+	margin-top: 15px;
+	padding: 15px;
+	top: 0;
+	left: 8%;
+	width: 80%;
+	min-height: 25%;
+	background-color: white;
+	border: 5px solid black;
+	border-radius: 5%;
+	z-index: 2;
+	white-space: pre-line;
+	word-wrap: break-word;
+	transition: 0.5s;
+}
+
+#info-panel > h3 {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.cv-content > floor {
+	position: relative;
+	top: 0;
+	background-color: red;
+	flex: 0 0 100%;
+	transition: 1s;
+}
+
+timeline {
+	position: absolute;
+	left: 30px;
+	display: flex;
+	flex-direction: column-reverse;
+	align-items: center;
+	justify-content: space-between;
+	height: 75%;
+}
+
+timeline > .me {
+	position: absolute;
+	bottom: -85px;
+	text-align: center;
+	font-weight: 900;
+	background-color: gray;
+	padding: 5px;
+	border-radius: 10%;
+}
+
+timeline:before {
+	content: "";
+	position: absolute;
+	border-radius: 3px;
+	border-left: 5px gray solid;
+	height: 100%;
+	z-index: 0;
+}
+
+time-dot {
+	background-color: gray;
+	padding: 10px 5px;
+	border-radius: 50%;
+	z-index: 1;
+}
+
+.desk {
+	position: absolute;
+	top: 65%;
+	left: 55%;
+	z-index: 2;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.desk img {
+	scale: 3;
+}

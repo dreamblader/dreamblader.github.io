@@ -1,11 +1,33 @@
-import { addToTarget } from "../utils/screen-utils.js";
+import { isExternalLink } from "../utils.js";
 
 export default class ScreenManager {
 	constructor(screens) {
 		this.screens = screens;
 		this.container = document.getElementById("container");
 		this.transition = document.getElementById("transition");
+		this.#setupStyles();
 		this.#goToScreen(screens[Object.keys(screens)[0]]);
+	}
+
+	#setupStyles() {
+		for (screen of Object.values(this.screens)) {
+			if (isExternalLink(screen.url)) {
+				continue;
+			}
+
+			let urlSegments = screen.url.split("/");
+			urlSegments[urlSegments.length - 1] = "style.css";
+			let styleFile = urlSegments.join("/");
+			this.#getContent(styleFile).then(
+				() => {
+					let link = document.createElement("link");
+					link.setAttribute("rel", "stylesheet");
+					link.setAttribute("href", styleFile);
+					document.head.appendChild(link);
+				},
+				() => {}
+			);
+		}
 	}
 
 	changeScreen(screenId) {
@@ -17,7 +39,7 @@ export default class ScreenManager {
 				return;
 			}
 
-			if (nextScreen.url.startsWith("http")) {
+			if (isExternalLink(nextScreen.url)) {
 				window.location.href = nextScreen.url;
 				return;
 			} else if (nextScreen === this.currentScreen) {
@@ -34,7 +56,7 @@ export default class ScreenManager {
 
 	#goToScreen(nextScreen) {
 		return new Promise((res, rej) => {
-			addToTarget(this.container, nextScreen.url)
+			this.addToTarget(this.container, nextScreen.url)
 				.then(
 					() => {
 						nextScreen.onStart();
@@ -67,6 +89,32 @@ export default class ScreenManager {
 			t.onfinish = (e) => {
 				res(t);
 			};
+		});
+	}
+
+	addToTarget(root_target, file) {
+		return this.#getContent(file)
+			.then((res) => {
+				root_target.innerHTML = res;
+			})
+			.catch((err) => {
+				console.error(err);
+				rej(err);
+			});
+	}
+
+	#getContent(file) {
+		return new Promise((res, rej) => {
+			const xReq = new XMLHttpRequest();
+			xReq.onload = () => {
+				if (xReq.status == 200) {
+					res(xReq.responseText);
+				} else {
+					rej(xReq.responseText);
+				}
+			};
+			xReq.open("GET", file);
+			xReq.send();
 		});
 	}
 }

@@ -16,7 +16,7 @@ export const GM3_SPRITES = {
 	},
 };
 
-//CLASS THIS
+//TODO CLASS THIS
 export const SCREENS = {
 	[START_KEY]: START,
 	[CV_KEY]: CV,
@@ -24,4 +24,8 @@ export const SCREENS = {
 	home: WORKING,
 	project: WORKING,
 	game: { url: "https://dreamblader.github.io/dreamblade/" },
+};
+
+export const CV_SPRITES = {
+	pc_sprite_url: "assets/pc.png",
 };

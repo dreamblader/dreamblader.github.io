@@ -1,5 +1,5 @@
 import Place from "../../base/screen.js";
-import { toPxStyle } from "../../utils/utils.js";
+import { toPxStyle } from "../../utils.js";
 
 export const START_KEY = "start";
 const START_PATH = "src/screens/start/start.html";

@@ -1,17 +1,25 @@
 import Place from "../../base/screen.js";
 import Char from "../../base/char.js";
-import { GM3_SPRITES } from "../../constants.js";
+import { CV_SPRITES, GM3_SPRITES } from "../../constants.js";
 import {
 	generateRandomFrom,
 	getAge,
 	randomInt,
 	toPercentageStyle,
-	toPxStyle,
-} from "../../utils/utils.js";
+	generateSprite,
+} from "../../utils.js";
+
+const LEVELS = {
+	PERSONAL: "personal",
+	EDUCATION: "education",
+	JOB: "job",
+};
 
 export const CV_KEY = "cv";
 const CV_PATH = "src/screens/cv/cv.html";
 const CV = new Place(CV_KEY, CV_PATH);
+CV.exp = 0;
+CV.level = 1;
 CV.tutorialMessage = `This is my Interactive CV. Click on the timeline on the left to
 	get my education and professional experiences from that period of time.`;
 CV.start = onStart;
@@ -47,16 +55,16 @@ function setupMiniChar() {
 
 function setupPage() {
 	this.timeline = document.getElementsByTagName("timeline")[0];
-	addLevel("personal");
+	addLevel(LEVELS.PERSONAL);
 	for (let e of this.cv.education) {
 		this.lastYear = e.begin_time.split("/")[1];
 		addTimeDot.call(this, this.lastYear);
-		addLevel("education");
+		addLevel(LEVELS.EDUCATION);
 	}
 	for (let e of this.cv.experience) {
 		this.lastYear = e.begin_time.split("/")[1];
 		addTimeDot.call(this, this.lastYear);
-		addLevel("job");
+		addLevel(LEVELS.JOB);
 	}
 
 	let currentYear = new Date().getFullYear();
@@ -98,9 +106,39 @@ function addTimeDot(year) {
 
 function addLevel(type) {
 	const content = document.getElementsByClassName("cv-content")[0];
-	const level = document.createElement("floor");
-	level.innerHTML = type;
+	const level = generateFloor(type);
 	content.appendChild(level);
+}
+
+function generateFloor(type) {
+	const floor = document.createElement("floor");
+	const desk = generateDesk();
+	switch (type) {
+		case LEVELS.PERSONAL:
+			console.log("p");
+			break;
+		case LEVELS.EDUCATION:
+			console.log("e");
+			break;
+		case LEVELS.JOB:
+			console.log("j");
+			break;
+	}
+
+	floor.appendChild(desk);
+	return floor;
+}
+
+function generateDesk() {
+	const desk = document.createElement("div");
+	desk.className = "desk";
+	const table = document.createElement("div");
+	const pc = document.createElement("div");
+	pc.appendChild(generateSprite(CV_SPRITES.pc_sprite_url));
+	//TODO
+	desk.appendChild(pc);
+	desk.appendChild(table);
+	return desk;
 }
 
 function getFloorYTreshold() {

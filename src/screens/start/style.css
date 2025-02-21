@@ -1,0 +1,68 @@
+building {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100px;
+	height: 100px;
+}
+
+building > img {
+	scale: 5;
+}
+
+building > p {
+	font-family: pcSenior;
+	color: white;
+	text-align: center;
+	position: absolute;
+	text-shadow: black 0px 3px 5px;
+	top: -25%;
+	left: -75%;
+	width: 250%;
+	opacity: 0;
+	transition: 0.5s;
+}
+
+building:hover > p {
+	opacity: 1;
+	top: -45%;
+}
+
+#cv {
+	top: 10%;
+	right: 75%;
+}
+
+#play {
+	top: 10%;
+	right: 25%;
+}
+
+#game {
+	top: 75%;
+	right: 75%;
+}
+
+#project {
+	top: 75%;
+	right: 25%;
+}
+
+#home {
+	top: 35%;
+	right: 50%;
+}
+
+#container {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+@media (pointer: coarse) {
+	building > p {
+		opacity: 1;
+		top: -45%;
+	}
+}

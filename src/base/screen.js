@@ -2,7 +2,7 @@ import { CHANGE_PLACE_EVENT_NAME } from "../constants.js";
 import { START_KEY } from "../screens/start/start.js";
 import { GM3_SPRITES } from "../constants.js";
 import Char from "./char.js";
-import { toCamelCase, toPxStyle } from "../utils/utils.js";
+import { toCamelCase, toPxStyle } from "../utils.js";
 
 export default class Place {
 	constructor(name, url) {

@@ -1,4 +1,4 @@
-import { toPxStyle } from "../utils/utils.js";
+import { toPxStyle } from "../utils.js";
 
 export default class SpriteAnimation {
 	constructor(sheetUrl, frameCount = 1, duration = 1.0, loop = false) {

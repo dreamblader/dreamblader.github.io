@@ -19,6 +19,12 @@ function toStyle(val, style) {
 	return val + style;
 }
 
+export function generateSprite(imageURI) {
+	const sprite = new Image();
+	sprite.src = imageURI;
+	return sprite;
+}
+
 export function generateAnimationFrames(imageURI, framesCount) {
 	let frames = [];
 	const img = new Image();
@@ -55,4 +61,8 @@ export function generateRandomFrom(token, length) {
 
 export function randomInt(min, max) {
 	return Math.floor(Math.random() * (max - min) + min);
+}
+
+export function isExternalLink(url) {
+	return url.startsWith("http");
 }
