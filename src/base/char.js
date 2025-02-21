@@ -15,6 +15,11 @@ export default class Char {
 		this.animate("idle");
 	}
 
+	setPosition(posX, posY) {
+		this.holder.style.left = posX;
+		this.holder.style.top = posY;
+	}
+
 	clickIn(posX, posY) {
 		if (this.block) {
 			return;

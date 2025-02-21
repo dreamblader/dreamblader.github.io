@@ -66,3 +66,7 @@ export function randomInt(min, max) {
 export function isExternalLink(url) {
 	return url.startsWith("http");
 }
+
+export function getCenterofRect(rect) {
+	//TODO use this to get center of div elements to position char sprite
+}

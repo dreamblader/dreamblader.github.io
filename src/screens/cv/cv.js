@@ -18,130 +18,142 @@ const LEVELS = {
 export const CV_KEY = "cv";
 const CV_PATH = "src/screens/cv/cv.html";
 const CV = new Place(CV_KEY, CV_PATH);
+
 CV.exp = 0;
 CV.level = 1;
 CV.tutorialMessage = `This is my Interactive CV. Click on the timeline on the left to
 	get my education and professional experiences from that period of time.`;
-CV.start = onStart;
 
-function onStart() {
-	setupMiniChar.call(this);
-	this.currentLevel = -1;
-	fetch("data/en/cv.json")
-		.then((res) => {
-			if (!res.ok) {
-				throw new Error(`HTTP Error! Status: ${res.status}`);
-			}
-			return res.json();
-		})
-		.then((data) => {
-			this.cv = data;
-			setupPage.call(this);
-			setCVLevel.call(this, 0);
-		})
-		.catch((error) => {
-			console.error(error);
+const calls = {
+	start: function () {
+		this.setupMiniChar();
+		this.currentLevel = -1;
+		fetch("data/en/cv.json")
+			.then((res) => {
+				if (!res.ok) {
+					throw new Error(`HTTP Error! Status: ${res.status}`);
+				}
+				return res.json();
+			})
+			.then((data) => {
+				this.cv = data;
+				this.setupPage();
+				this.setCVLevel(0);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	},
+
+	setupMiniChar: function () {
+		const char_holder = this.binding.miniChar;
+		let mini_gm3 = { ...GM3_SPRITES };
+		mini_gm3.scale = 2;
+		this.mini_char = new Char(char_holder, mini_gm3);
+		this.mini_char.holder.style.top = "85%";
+		this.mini_char.holder.style.left = "30px";
+	},
+
+	setupPage: function () {
+		this.timeline = document.getElementsByTagName("timeline")[0];
+		this.addLevel(LEVELS.PERSONAL);
+		for (let e of this.cv.education) {
+			this.lastYear = e.begin_time.split("/")[1];
+			this.addTimeDot(this.lastYear);
+			this.addLevel(LEVELS.EDUCATION);
+		}
+		for (let e of this.cv.experience) {
+			this.lastYear = e.begin_time.split("/")[1];
+			this.addTimeDot(this.lastYear);
+			this.addLevel(LEVELS.JOB);
+		}
+
+		let currentYear = new Date().getFullYear();
+
+		if (this.lastYear !== currentYear) {
+			this.addTimeDot(currentYear);
+		}
+
+		this.getFloorYTreshold();
+
+		this.timeline.addEventListener("click", (e) => {
+			this.timelineClick(e.target.className, e.y);
+
+			this.mini_char.clickIn(null, e.y);
 		});
-}
+	},
 
-function setupMiniChar() {
-	const char_holder = this.binding.miniChar;
-	let mini_gm3 = { ...GM3_SPRITES };
-	mini_gm3.scale = 2;
-	this.mini_char = new Char(char_holder, mini_gm3);
-	this.mini_char.holder.style.top = "85%";
-	this.mini_char.holder.style.left = "30px";
-}
-
-function setupPage() {
-	this.timeline = document.getElementsByTagName("timeline")[0];
-	addLevel(LEVELS.PERSONAL);
-	for (let e of this.cv.education) {
-		this.lastYear = e.begin_time.split("/")[1];
-		addTimeDot.call(this, this.lastYear);
-		addLevel(LEVELS.EDUCATION);
-	}
-	for (let e of this.cv.experience) {
-		this.lastYear = e.begin_time.split("/")[1];
-		addTimeDot.call(this, this.lastYear);
-		addLevel(LEVELS.JOB);
-	}
-
-	let currentYear = new Date().getFullYear();
-
-	if (this.lastYear !== currentYear) {
-		addTimeDot.call(this, currentYear);
-	}
-
-	getFloorYTreshold.call(this);
-
-	this.timeline.addEventListener("click", (e) => {
-		timelineClick.call(this, e.target.className, e.y);
-
-		this.mini_char.clickIn(null, e.y);
-	});
-}
-
-function timelineClick(targetClass, targetY) {
-	if (targetClass === "me") {
-		setCVLevel.call(this, 0);
-	} else {
-		let level = 0;
-		for (let t of this.yTreshholds) {
-			if (targetY >= t) {
-				setCVLevel.call(this, level);
-				break;
-			} else {
-				level++;
+	timelineClick: function (targetClass, targetY) {
+		if (targetClass === "me") {
+			this.setCVLevel(0);
+		} else {
+			let level = 0;
+			for (let t of this.yTreshholds) {
+				if (targetY >= t) {
+					this.setCVLevel(level);
+					break;
+				} else {
+					level++;
+				}
 			}
 		}
-	}
-}
+	},
 
-function addTimeDot(year) {
-	const dot = document.createElement("time-dot");
-	dot.innerHTML = year;
-	this.timeline.appendChild(dot);
-}
+	addTimeDot: function (year) {
+		const dot = document.createElement("time-dot");
+		dot.innerHTML = year;
+		this.timeline.appendChild(dot);
+	},
 
-function addLevel(type) {
-	const content = document.getElementsByClassName("cv-content")[0];
-	const level = generateFloor(type);
-	content.appendChild(level);
-}
+	addLevel: function (type) {
+		const content = document.getElementsByClassName("cv-content")[0];
+		const level = this.generateFloor(type);
+		content.appendChild(level);
+	},
 
-function generateFloor(type) {
-	const floor = document.createElement("floor");
-	const desk = generateDesk();
-	switch (type) {
-		case LEVELS.PERSONAL:
-			console.log("p");
-			break;
-		case LEVELS.EDUCATION:
-			console.log("e");
-			break;
-		case LEVELS.JOB:
-			console.log("j");
-			break;
-	}
+	generateFloor: function (type) {
+		const floor = document.createElement("floor");
+		const wall = document.createElement("div");
+		const ground = document.createElement("div");
 
-	floor.appendChild(desk);
-	return floor;
-}
+		wall.className = "wall w-" + type;
+		ground.className = "ground g-" + type;
 
-function generateDesk() {
-	const desk = document.createElement("div");
-	desk.className = "desk";
-	const table = document.createElement("div");
-	const pc = document.createElement("div");
-	pc.appendChild(generateSprite(CV_SPRITES.pc_sprite_url));
-	//TODO
-	desk.appendChild(pc);
-	desk.appendChild(table);
-	return desk;
-}
+		floor.appendChild(wall);
+		floor.appendChild(ground);
 
-function getFloorYTreshold() {
+		if (type !== LEVELS.PERSONAL) {
+			floor.appendChild(this.generateDesk());
+		}
+
+		return floor;
+	},
+
+	generateDesk: function () {
+		const desk = document.createElement("div");
+		desk.className = "desk";
+		const table = document.createElement("div");
+		const pc = document.createElement("div");
+		pc.appendChild(generateSprite(CV_SPRITES.pc_sprite_url));
+		pc.addEventListener("click", (e) => {
+			this.addExp();
+		});
+		//TODO
+		desk.appendChild(pc);
+		desk.appendChild(table);
+		return desk;
+	},
+
+	addExp: function () {
+		this.exp += this.currentLevel;
+	},
+};
+
+CV.bindCalls(calls);
+
+//TODO ADD ALL THESE FUNCTIONS ON CALLS OBJECT
+CV.getFloorYTreshold = function () {
+	//FIXME this need to change on screen changing event
 	const dots = document.getElementsByTagName("time-dot");
 	this.yTreshholds = [];
 	for (let dot of dots) {
@@ -153,19 +165,23 @@ function getFloorYTreshold() {
 			break;
 		}
 	}
-}
+};
 
-function setCVLevel(level) {
+CV.setCVLevel = function (level) {
 	if (this.currentLevel === level) {
 		return;
 	}
 
-	if (level === 0) {
-		personalLevel.call(this);
-	} else if (level === 1) {
-		educationLevel.call(this);
-	} else {
-		professionalLevel.call(this, level - 2);
+	switch (level) {
+		case 0:
+			personalLevel.call(this);
+			break;
+		case 1:
+			educationLevel.call(this);
+			break;
+		default:
+			professionalLevel.call(this, level - 2);
+			break;
 	}
 
 	if (this.currentLevel === -1) {
@@ -177,7 +193,7 @@ function setCVLevel(level) {
 	}
 
 	this.currentLevel = level;
-}
+};
 
 function personalLevel() {
 	const personalInfo = this.cv.personal;

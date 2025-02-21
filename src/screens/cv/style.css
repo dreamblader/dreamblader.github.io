@@ -34,9 +34,23 @@
 .cv-content > floor {
 	position: relative;
 	top: 0;
-	background-color: red;
 	flex: 0 0 100%;
 	transition: 1s;
+}
+
+.wall {
+	background-color: darkblue;
+	height: 75%;
+}
+
+.ground {
+	background-color: brown;
+	height: 25%;
+}
+
+.g-personal {
+	background-image: url("../../../assets/brick.png");
+	background-size: 32px;
 }
 
 timeline {
