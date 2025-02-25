@@ -1,4 +1,4 @@
-import { toPxStyle, generateAnimationFrames } from "../utils.js";
+import { toPxStyle } from "../utils.js";
 
 export default class Char {
 	constructor(holder, sprite) {
@@ -16,8 +16,16 @@ export default class Char {
 	}
 
 	setPosition(posX, posY) {
-		this.holder.style.left = posX;
-		this.holder.style.top = posY;
+		this.setPositionX(posX);
+		this.setPositionY(posY);
+	}
+
+	setPositionX(posX) {
+		this.holder.style.left = toPxStyle(posX);
+	}
+
+	setPositionY(posY) {
+		this.holder.style.top = toPxStyle(posY);
 	}
 
 	clickIn(posX, posY) {

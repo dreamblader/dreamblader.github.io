@@ -54,12 +54,6 @@ building:hover > p {
 	right: 50%;
 }
 
-#container {
-	height: 100%;
-	width: 100%;
-	overflow: hidden;
-}
-
 @media (pointer: coarse) {
 	building > p {
 		opacity: 1;

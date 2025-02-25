@@ -68,5 +68,5 @@ export function isExternalLink(url) {
 }
 
 export function getCenterofRect(rect) {
-	//TODO use this to get center of div elements to position char sprite
+	return [rect.x + rect.width / 2, rect.y + rect.height / 2];
 }

@@ -7,6 +7,7 @@ import {
 	randomInt,
 	toPercentageStyle,
 	generateSprite,
+	getCenterofRect,
 } from "../../utils.js";
 
 const LEVELS = {
@@ -47,11 +48,13 @@ const calls = {
 
 	setupMiniChar: function () {
 		const char_holder = this.binding.miniChar;
+		const start_div = document.getElementsByClassName("me")[0];
 		let mini_gm3 = { ...GM3_SPRITES };
 		mini_gm3.scale = 2;
 		this.mini_char = new Char(char_holder, mini_gm3);
-		this.mini_char.holder.style.top = "85%";
-		this.mini_char.holder.style.left = "30px";
+		this.mini_char.setPosition(
+			...getCenterofRect(start_div.getBoundingClientRect())
+		);
 	},
 
 	setupPage: function () {
@@ -116,8 +119,8 @@ const calls = {
 		const wall = document.createElement("div");
 		const ground = document.createElement("div");
 
-		wall.className = "wall w-" + type;
-		ground.className = "ground g-" + type;
+		wall.className = "wall " + type;
+		ground.className = "ground " + type;
 
 		floor.appendChild(wall);
 		floor.appendChild(ground);
@@ -136,7 +139,7 @@ const calls = {
 		const pc = document.createElement("div");
 		pc.appendChild(generateSprite(CV_SPRITES.pc_sprite_url));
 		pc.addEventListener("click", (e) => {
-			this.addExp();
+			this.addExp(this.currentLevel);
 		});
 		//TODO
 		desk.appendChild(pc);
@@ -144,110 +147,125 @@ const calls = {
 		return desk;
 	},
 
-	addExp: function () {
-		this.exp += this.currentLevel;
+	addExp: function (value) {
+		this.exp += value;
+		const nextLevel = 10 + Math.floor(this.level * 30 * 1.25);
+		const progressPercent = Math.min(
+			Math.round((this.exp / nextLevel) * 100),
+			100
+		);
+		this.binding.progress.style.width = toPercentageStyle(progressPercent);
+		this.binding.progress.textContent = toPercentageStyle(progressPercent);
+		if (this.exp >= nextLevel) {
+			this.level += 1;
+			this.binding.lv.textContent = `Level ${this.level}`;
+			const overValue = (this.exp -= nextLevel);
+			this.exp = 0;
+			this.addExp(overValue);
+		}
+	},
+
+	getFloorYTreshold: function () {
+		//FIXME this need to change on screen changing event
+		const dots = document.getElementsByTagName("time-dot");
+		this.yTreshholds = [];
+		for (let dot of dots) {
+			if (dot.innerHTML <= this.lastYear) {
+				let { y, height } = dot.getBoundingClientRect();
+				this.yTreshholds.push(y + height);
+			} else {
+				this.yTreshholds.push(0);
+				break;
+			}
+		}
+	},
+
+	setCVLevel: function (level) {
+		if (this.currentLevel === level) {
+			return;
+		}
+
+		switch (level) {
+			case 0:
+				this.personalLevel();
+				break;
+			case 1:
+				this.educationLevel();
+				break;
+			default:
+				this.professionalLevel(level - 2);
+				break;
+		}
+
+		if (this.currentLevel === -1) {
+			this.binding.infoPanel.innerHTML = this.info;
+		} else {
+			moveFloors.call(this, level).then(() => {
+				this.binding.infoPanel.innerHTML = this.info;
+			});
+		}
+
+		this.currentLevel = level;
+	},
+
+	personalLevel: function () {
+		const personalInfo = this.cv.personal;
+		this.binding.infoPanel.style.backgroundColor = "white";
+		this.binding.infoPanel.style.borderColor = "black";
+		this.binding.infoPanel.style.borderRadius = toPercentageStyle(5);
+		this.binding.infoPanel.style.color = "black";
+		this.binding.infoPanel.style.fontFamily = "Roboto";
+		this.info = `<h3>Personal Info:</h3>
+		<b>Name:</b> ${personalInfo.name}
+		<b>Nationality:</b> ${personalInfo.nacionality}
+		<b>Age:</b> ${getAge(personalInfo.birthdate)}
+	
+		${personalInfo.intro}
+		
+		I can speak:
+		${getLanguages(personalInfo.languages)}`;
+	},
+
+	educationLevel: function () {
+		const educationInfo = this.cv.education[0];
+		this.binding.infoPanel.style.backgroundColor = "rgb(39, 76, 67)";
+		this.binding.infoPanel.style.borderColor = "brown";
+		this.binding.infoPanel.style.borderRadius = "0";
+		this.binding.infoPanel.style.color = "white";
+		this.binding.infoPanel.style.fontFamily = "Eraser";
+		this.info = `<h3>Education:</h3>
+		<b>Graduate at:</b> 
+		${educationInfo.institution}
+	
+		<b>With:</b> 
+		${educationInfo.title}
+	
+		<b>Started:</b> ${educationInfo.begin_time}
+		<b>Ended:</b> ${educationInfo.end_time}`;
+	},
+
+	professionalLevel: function (relativeLevel) {
+		const professionalInfo = this.cv.experience[relativeLevel];
+		this.binding.infoPanel.style.backgroundColor = "black";
+		this.binding.infoPanel.style.borderColor = "gray";
+		this.binding.infoPanel.style.borderRadius = "0";
+		this.binding.infoPanel.style.color = "white";
+		this.binding.infoPanel.style.fontFamily = "Roboto";
+		this.info = `<h3>${professionalInfo.company}</h3>
+		${professionalInfo.title}
+	
+		<ul>
+		${getAllJobTopicsAsLi(professionalInfo.stuff)}
+		</ul>
+	
+		<b>Started:</b> ${professionalInfo.begin_time}
+		<b>Ended:</b> ${professionalInfo.end_time}`;
 	},
 };
 
 CV.bindCalls(calls);
 
 //TODO ADD ALL THESE FUNCTIONS ON CALLS OBJECT
-CV.getFloorYTreshold = function () {
-	//FIXME this need to change on screen changing event
-	const dots = document.getElementsByTagName("time-dot");
-	this.yTreshholds = [];
-	for (let dot of dots) {
-		if (dot.innerHTML <= this.lastYear) {
-			let { y, height } = dot.getBoundingClientRect();
-			this.yTreshholds.push(y + height);
-		} else {
-			this.yTreshholds.push(0);
-			break;
-		}
-	}
-};
-
-CV.setCVLevel = function (level) {
-	if (this.currentLevel === level) {
-		return;
-	}
-
-	switch (level) {
-		case 0:
-			personalLevel.call(this);
-			break;
-		case 1:
-			educationLevel.call(this);
-			break;
-		default:
-			professionalLevel.call(this, level - 2);
-			break;
-	}
-
-	if (this.currentLevel === -1) {
-		this.binding.infoPanel.innerHTML = this.info;
-	} else {
-		moveFloors.call(this, level).then(() => {
-			this.binding.infoPanel.innerHTML = this.info;
-		});
-	}
-
-	this.currentLevel = level;
-};
-
-function personalLevel() {
-	const personalInfo = this.cv.personal;
-	this.binding.infoPanel.style.backgroundColor = "white";
-	this.binding.infoPanel.style.borderColor = "black";
-	this.binding.infoPanel.style.borderRadius = toPercentageStyle(5);
-	this.binding.infoPanel.style.color = "black";
-	this.binding.infoPanel.style.fontFamily = "Roboto";
-	this.info = `<h3>Personal Info:</h3>
-	<b>Name:</b> ${personalInfo.name}
-	<b>Nationality:</b> ${personalInfo.nacionality}
-	<b>Age:</b> ${getAge(personalInfo.birthdate)}
-
-	${personalInfo.intro}
-	
-	I can speak:
-	${getLanguages(personalInfo.languages)}`;
-}
-
-function educationLevel() {
-	const educationInfo = this.cv.education[0];
-	this.binding.infoPanel.style.backgroundColor = "rgb(39, 76, 67)";
-	this.binding.infoPanel.style.borderColor = "brown";
-	this.binding.infoPanel.style.borderRadius = "0";
-	this.binding.infoPanel.style.color = "white";
-	this.binding.infoPanel.style.fontFamily = "Eraser";
-	this.info = `<h3>Education:</h3>
-	<b>Graduate at:</b> 
-	${educationInfo.institution}
-
-	<b>With:</b> 
-	${educationInfo.title}
-
-	<b>Started:</b> ${educationInfo.begin_time}
-	<b>Ended:</b> ${educationInfo.end_time}`;
-}
-
-function professionalLevel(relativeLevel) {
-	const professionalInfo = this.cv.experience[relativeLevel];
-	this.binding.infoPanel.style.backgroundColor = "black";
-	this.binding.infoPanel.style.borderColor = "gray";
-	this.binding.infoPanel.style.borderRadius = "0";
-	this.binding.infoPanel.style.color = "white";
-	this.binding.infoPanel.style.fontFamily = "Roboto";
-	this.info = `<h3>${professionalInfo.company}</h3>
-	${professionalInfo.title}
-
-	<ul>
-	${getAllJobTopicsAsLi(professionalInfo.stuff)}
-	</ul>
-
-	<b>Started:</b> ${professionalInfo.begin_time}
-	<b>Ended:</b> ${professionalInfo.end_time}`;
-}
 
 function moveFloors(level) {
 	return new Promise((res, rej) => {
