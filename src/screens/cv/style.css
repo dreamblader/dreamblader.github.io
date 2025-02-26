@@ -44,6 +44,7 @@
 }
 
 .ground {
+	border-top: 5px solid black;
 	background-color: brown;
 	height: 25%;
 }

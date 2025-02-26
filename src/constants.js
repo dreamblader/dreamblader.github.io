@@ -28,4 +28,5 @@ export const SCREENS = {
 
 export const CV_SPRITES = {
 	pc_sprite_url: "assets/pc.png",
+	table_sprite_url: "assets/table.png",
 };

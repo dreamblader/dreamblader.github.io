@@ -135,9 +135,9 @@ const calls = {
 	generateDesk: function () {
 		const desk = document.createElement("div");
 		desk.className = "desk";
-		const table = document.createElement("div");
-		const pc = document.createElement("div");
-		pc.appendChild(generateSprite(CV_SPRITES.pc_sprite_url));
+		const table = generateSprite(CV_SPRITES.table_sprite_url);
+		table.style.pointerEvents = "none";
+		const pc = generateSprite(CV_SPRITES.pc_sprite_url);
 		pc.addEventListener("click", (e) => {
 			this.addExp(this.currentLevel);
 		});
