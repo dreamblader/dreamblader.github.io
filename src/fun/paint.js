@@ -1,4 +1,6 @@
-function paintAt(posX, posY) {
+import { toPxStyle } from "../utils.js";
+
+export function paintAt(posX, posY) {
 	const t = document.createElement("div");
 	t.style.background = "red";
 	t.style.width = "4px";

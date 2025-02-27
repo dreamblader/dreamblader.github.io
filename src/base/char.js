@@ -79,7 +79,7 @@ export default class Char {
 		this.animate("walk");
 
 		const { x: myX, y: myY } = this.getPos();
-		const { x: xOffset, y: yOffset } = this.#getCenterOffset();
+		const { x: xOffset, y: yOffset } = this.getCenterOffset();
 		if (posX) {
 			this.changeDirection(myX <= posX ? 1 : -1);
 		}
@@ -140,6 +140,7 @@ export default class Char {
 
 	getOriginPos() {}
 
+	//TODO maybe add offset in here to actually get center of rect... MAYYYYBE
 	getPos() {
 		const rect = this.getRect();
 		const pos = {
@@ -149,7 +150,7 @@ export default class Char {
 		return pos;
 	}
 
-	#getCenterOffset() {
+	getCenterOffset() {
 		let rect = this.getRect();
 		const pos = {
 			x: rect.width / 2,

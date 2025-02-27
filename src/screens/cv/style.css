@@ -46,7 +46,7 @@
 .ground {
 	border-top: 5px solid black;
 	background-color: brown;
-	height: 25%;
+	height: calc(25% - 5px);
 }
 
 .ground.personal {
@@ -113,6 +113,7 @@ time-dot {
 #progress {
 	width: 0%;
 	height: 100%;
+	align-content: center;
 	text-align: center;
 	background-color: yellow;
 }
@@ -120,7 +121,7 @@ time-dot {
 .desk {
 	position: absolute;
 	top: 65%;
-	left: 55%;
+	left: 75%;
 	z-index: 2;
 	display: flex;
 	flex-direction: column;
@@ -128,6 +129,18 @@ time-dot {
 	align-items: center;
 }
 
+#lv {
+	margin: 0 0;
+}
+
 .desk img {
 	scale: 3;
+}
+
+.exp-click {
+	padding-bottom: 18px;
+}
+
+.exp-click:hover {
+	filter: brightness(1.5);
 }

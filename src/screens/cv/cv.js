@@ -8,6 +8,7 @@ import {
 	toPercentageStyle,
 	generateSprite,
 	getCenterofRect,
+	toPxStyle,
 } from "../../utils.js";
 
 const LEVELS = {
@@ -15,6 +16,8 @@ const LEVELS = {
 	EDUCATION: "education",
 	JOB: "job",
 };
+
+const PACING_DISTANCE = 150;
 
 export const CV_KEY = "cv";
 const CV_PATH = "src/screens/cv/cv.html";
@@ -40,6 +43,7 @@ const calls = {
 				this.cv = data;
 				this.setupPage();
 				this.setCVLevel(0);
+				this.setupIdleEvent();
 			})
 			.catch((error) => {
 				console.error(error);
@@ -84,6 +88,26 @@ const calls = {
 
 			this.mini_char.clickIn(null, e.y);
 		});
+	},
+
+	setupIdleEvent: function () {
+		let dir = 1;
+		const floor = document
+			.getElementsByClassName("ground")[0]
+			.getBoundingClientRect();
+		this.char.setPositionY(floor.y - floor.height / 4);
+		//TODO remove Event when changing floors and re-add again
+		this.idleEvent = setInterval(() => {
+			let next_x =
+				this.char.getPos().x +
+				this.char.getCenterOffset().x +
+				PACING_DISTANCE * dir;
+			this.char.moveTo(next_x, null);
+			if (dir === -1) {
+				this.addExp(this.currentLevel);
+			}
+			dir *= -1;
+		}, 2000);
 	},
 
 	timelineClick: function (targetClass, targetY) {
@@ -138,10 +162,25 @@ const calls = {
 		const table = generateSprite(CV_SPRITES.table_sprite_url);
 		table.style.pointerEvents = "none";
 		const pc = generateSprite(CV_SPRITES.pc_sprite_url);
+		pc.className = "exp-click";
 		pc.addEventListener("click", (e) => {
+			const frames = [
+				{
+					scale: 3,
+				},
+				{
+					scale: 2.75,
+				},
+				{
+					scale: 3,
+				},
+			];
+			const duration = {
+				duration: 300,
+			};
+			pc.animate(frames, duration);
 			this.addExp(this.currentLevel);
 		});
-		//TODO
 		desk.appendChild(pc);
 		desk.appendChild(table);
 		return desk;
@@ -178,6 +217,7 @@ const calls = {
 				break;
 			}
 		}
+		console.log(this.yTreshholds); //FIXME Debug console Y
 	},
 
 	setCVLevel: function (level) {
@@ -260,6 +300,11 @@ const calls = {
 	
 		<b>Started:</b> ${professionalInfo.begin_time}
 		<b>Ended:</b> ${professionalInfo.end_time}`;
+	},
+
+	end: function () {
+		clearInterval(this.idleEvent);
+		this.char.reset();
 	},
 };
 

@@ -1,7 +1,3 @@
-// export default class Utils {
-
-// }
-
 const STYLES = {
 	PX: "px",
 	PERCENTAGE: "%",
