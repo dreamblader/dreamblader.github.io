@@ -21,6 +21,7 @@ export default class SpriteAnimation {
 	}
 
 	runAnimationIn(object) {
+		//FIXME This is a reference and is coliding with both chars moving...
 		if (this.frameCount <= 0) {
 			return;
 		}

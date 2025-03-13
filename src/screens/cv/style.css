@@ -54,6 +54,30 @@
 	background-size: 32px;
 }
 
+.wall.personal {
+	background-image: url("../../../assets/plank.png");
+	background-size: 64px;
+}
+
+.ground.education {
+	background-image: url("../../../assets/school-floor.png");
+	background-size: 64px;
+}
+
+.wall.education {
+	background-color: #bfd9de;
+}
+
+.ground.job {
+	background-image: url("../../../assets/lab-floor.png");
+	background-size: 32px;
+}
+
+.wall.job {
+	background-image: url("../../../assets/lab-wall.png");
+	background-size: 32px;
+}
+
 timeline {
 	position: absolute;
 	left: 30px;
@@ -114,8 +138,15 @@ time-dot {
 	width: 0%;
 	height: 100%;
 	align-content: center;
-	text-align: center;
 	background-color: yellow;
+	transition: 0.25s ease-out;
+}
+
+#progressbar > p {
+	position: absolute;
+	text-shadow: 0 0 0.1em white;
+	left: 50%;
+	text-align: center;
 }
 
 .desk {

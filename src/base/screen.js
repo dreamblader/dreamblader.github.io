@@ -55,16 +55,6 @@ export default class Place {
 		document.dispatchEvent(event);
 	}
 
-	bindCalls(calls) {
-		for (let key of Object.keys(calls)) {
-			if (this[key] === undefined || this[key] === null) {
-				this[key] = calls[key];
-			} else {
-				console.error(`key name ${key} already exist in ${this}`);
-			}
-		}
-	}
-
 	#setupBindings() {
 		const elements = this.container.querySelectorAll("[id]");
 		for (let e of elements) {

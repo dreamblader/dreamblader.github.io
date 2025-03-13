@@ -30,6 +30,7 @@ CV.tutorialMessage = `This is my Interactive CV. Click on the timeline on the le
 
 const calls = {
 	start: function () {
+		this.loadIdleData();
 		this.setupMiniChar();
 		this.currentLevel = -1;
 		fetch("data/en/cv.json")
@@ -92,21 +93,24 @@ const calls = {
 
 	setupIdleEvent: function () {
 		let dir = 1;
+		let count = 0;
 		const floor = document
 			.getElementsByClassName("ground")[0]
 			.getBoundingClientRect();
 		this.char.setPositionY(floor.y - floor.height / 4);
-		//TODO remove Event when changing floors and re-add again
 		this.idleEvent = setInterval(() => {
-			let next_x =
-				this.char.getPos().x +
-				this.char.getCenterOffset().x +
-				PACING_DISTANCE * dir;
+			let next_x = this.char.getPos().x + PACING_DISTANCE * dir;
+			//TODO Lock char animation in JUMP STATE
 			this.char.moveTo(next_x, null);
 			if (dir === -1) {
 				this.addExp(this.currentLevel);
 			}
 			dir *= -1;
+			count += 1;
+			if (count >= 10) {
+				count = 0;
+				this.saveIdleData();
+			}
 		}, 2000);
 	},
 
@@ -194,7 +198,8 @@ const calls = {
 			100
 		);
 		this.binding.progress.style.width = toPercentageStyle(progressPercent);
-		this.binding.progress.textContent = toPercentageStyle(progressPercent);
+		this.binding.progressbar.children.item(0).textContent =
+			toPercentageStyle(progressPercent);
 		if (this.exp >= nextLevel) {
 			this.level += 1;
 			this.binding.lv.textContent = `Level ${this.level}`;
@@ -212,6 +217,7 @@ const calls = {
 			if (dot.innerHTML <= this.lastYear) {
 				let { y, height } = dot.getBoundingClientRect();
 				this.yTreshholds.push(y + height);
+				console.log(dot, y, height);
 			} else {
 				this.yTreshholds.push(0);
 				break;
@@ -302,13 +308,32 @@ const calls = {
 		<b>Ended:</b> ${professionalInfo.end_time}`;
 	},
 
+	loadIdleData: function () {
+		const loadXp = localStorage.getItem("xp");
+		const loadLevel = localStorage.getItem("lv");
+		if (loadLevel !== null) {
+			this.level = Number(loadLevel);
+			this.binding.lv.textContent = `Level ${this.level}`;
+		}
+		if (loadXp !== null) {
+			this.exp = Number(loadXp);
+			this.addExp(0);
+		}
+	},
+
+	saveIdleData: function () {
+		localStorage.setItem("xp", this.exp);
+		localStorage.setItem("lv", this.level);
+	},
+
 	end: function () {
+		this.saveIdleData();
 		clearInterval(this.idleEvent);
 		this.char.reset();
 	},
 };
 
-CV.bindCalls(calls);
+Object.assign(CV, calls);
 
 //TODO ADD ALL THESE FUNCTIONS ON CALLS OBJECT
 
@@ -373,3 +398,51 @@ function getAllJobTopicsAsLi(topics) {
 }
 
 export default CV;
+
+/* FIXME
+ERROR CALC Y THRESH
+0
+: 
+745.6875
+1
+: 
+643.40625
+2
+: 
+541.125
+3
+: 
+438.84375
+4
+: 
+336.5625
+5
+: 
+234.28125
+6
+: 
+0
+
+GOOD CALC Y:
+0
+: 
+765.6875
+1
+: 
+663.40625
+2
+: 
+561.125
+3
+: 
+458.84375
+4
+: 
+356.5625
+5
+: 
+254.28125
+6
+: 
+0
+*/

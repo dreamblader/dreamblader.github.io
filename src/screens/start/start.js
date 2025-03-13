@@ -52,6 +52,6 @@ const calls = {
 	},
 };
 
-START.bindCalls(calls);
+Object.assign(START, calls);
 
 export default START;

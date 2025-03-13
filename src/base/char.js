@@ -37,7 +37,10 @@ export default class Char {
 			this.jump();
 			console.log("YO");
 		} else if (!this.jumpMovement) {
-			this.moveTo(posX, posY);
+			const { x: xOffset, y: yOffset } = this.getCenterOffset();
+			const goToX = posX !== null ? posX - xOffset : null;
+			const goToY = posY !== null ? posY - yOffset : null;
+			this.moveTo(goToX, goToY);
 		}
 	}
 
@@ -79,7 +82,7 @@ export default class Char {
 		this.animate("walk");
 
 		const { x: myX, y: myY } = this.getPos();
-		const { x: xOffset, y: yOffset } = this.getCenterOffset();
+
 		if (posX) {
 			this.changeDirection(myX <= posX ? 1 : -1);
 		}
@@ -89,9 +92,8 @@ export default class Char {
 				top: toPxStyle(myY),
 			},
 			{
-				left:
-					posX !== null ? toPxStyle(posX - xOffset) : toPxStyle(myX),
-				top: posY !== null ? toPxStyle(posY - yOffset) : toPxStyle(myY),
+				left: posX !== null ? toPxStyle(posX) : toPxStyle(myX),
+				top: posY !== null ? toPxStyle(posY) : toPxStyle(myY),
 			},
 		];
 		const duration = {
@@ -138,9 +140,6 @@ export default class Char {
 		return this.holder.getBoundingClientRect();
 	}
 
-	getOriginPos() {}
-
-	//TODO maybe add offset in here to actually get center of rect... MAYYYYBE
 	getPos() {
 		const rect = this.getRect();
 		const pos = {
