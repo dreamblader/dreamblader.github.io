@@ -54,7 +54,7 @@ const calls = {
 	setupMiniChar: function () {
 		const char_holder = this.binding.miniChar;
 		const start_div = document.getElementsByClassName("me")[0];
-		let mini_gm3 = { ...GM3_SPRITES };
+		let mini_gm3 = GM3_SPRITES();
 		mini_gm3.scale = 2;
 		this.mini_char = new Char(char_holder, mini_gm3);
 		this.mini_char.setPosition(
@@ -422,6 +422,8 @@ ERROR CALC Y THRESH
 6
 : 
 0
+
+THE Y Pos is strange
 
 GOOD CALC Y:
 0

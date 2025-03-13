@@ -119,7 +119,7 @@ export default class Place {
 	#setupChar() {
 		const char_holder = this.binding.char;
 		if (char_holder) {
-			this.char = new Char(char_holder, GM3_SPRITES);
+			this.char = new Char(char_holder, GM3_SPRITES());
 		}
 	}
 }

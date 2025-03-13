@@ -2,11 +2,11 @@
 
 ## CV
 
--   [ ] Create Background for Personal Floor - Education and Job
--   [ ] Create Floor for Personal Floor - Education and Job
+-   [x] Create Background for Personal Floor - Education and Job
+-   [x] Create Floor for Personal Floor - Education and Job
 -   [ ] Add tint for different job floors
 -   [x] Make computer click add XP progression for Idle Sim
--   [ ] Add iddle sim Lv progression and save level + xp in a nice cookie
+-   [x] Add iddle sim Lv progression and save level + xp in local storage
 -   [x] Add Char pacing Back and Forth and add auto XP depending on CV level (each 2s ?)
 -   [ ] Add Char Jump Animation when you change floor
 
