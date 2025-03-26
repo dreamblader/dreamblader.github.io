@@ -8,16 +8,15 @@
 -   [x] Make computer click add XP progression for Idle Sim
 -   [x] Add iddle sim Lv progression and save level + xp in local storage
 -   [x] Add Char pacing Back and Forth and add auto XP depending on CV level (each 2s ?)
--   [ ] Add Char Jump Animation when you change floor
 
 ## Refactors n Utils
 
 -   [ ] Add SpriteHolder Class that encapsulate SpritesAnimation Like Char but for all images in site
 -   [ ] Add position refactor to char so you can add char based on another div positions on screen (for CV better placement)
--   [ ] Add redirect function that read the URL and redirect to the correct page
+-   [x] Add redirect function that read the URL and redirect to the correct page
 -   [ ] Add Options Bar on top that will contain Exit in non index pages and tutorial disable button
 -   [ ] Add Tutorial option in Cookie
--   [ ] Add a nicer way to access inner Screen function without bind. Maybe create a call object
+-   [x] Add a nicer way to access inner Screen function without bind. Maybe create a call object
 
 ## Home -> Articles
 

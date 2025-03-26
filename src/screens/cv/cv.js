@@ -29,9 +29,12 @@ CV.tutorialMessage = `This is my Interactive CV. Click on the timeline on the le
 	get my education and professional experiences from that period of time.`;
 
 const calls = {
-	start: function () {
+	start: function (startParams) {
+		const startLevel = Number(startParams);
+		//FIXME: REsize shenaningans
+
 		this.loadIdleData();
-		this.setupMiniChar();
+
 		this.currentLevel = -1;
 		fetch("data/en/cv.json")
 			.then((res) => {
@@ -43,8 +46,9 @@ const calls = {
 			.then((data) => {
 				this.cv = data;
 				this.setupPage();
-				this.setCVLevel(0);
 				this.setupIdleEvent();
+				this.setupMiniChar();
+				this.setCVLevel(isNaN(startLevel) ? 0 : startLevel);
 			})
 			.catch((error) => {
 				console.error(error);
@@ -52,14 +56,21 @@ const calls = {
 	},
 
 	setupMiniChar: function () {
+		const floor = document
+			.getElementsByClassName("ground")[0]
+			.getBoundingClientRect();
+		this.char.setPositionY(floor.y - floor.height / 4);
+
 		const char_holder = this.binding.miniChar;
 		const start_div = document.getElementsByClassName("me")[0];
 		let mini_gm3 = GM3_SPRITES();
 		mini_gm3.scale = 2;
 		this.mini_char = new Char(char_holder, mini_gm3);
-		this.mini_char.setPosition(
-			...getCenterofRect(start_div.getBoundingClientRect())
+		const { x, y } = start_div.getBoundingClientRect();
+		const padding = Number(
+			getComputedStyle(start_div).padding.replace("px", "")
 		);
+		this.mini_char.setPosition(x + padding, y + padding);
 	},
 
 	setupPage: function () {
@@ -82,8 +93,6 @@ const calls = {
 			this.addTimeDot(currentYear);
 		}
 
-		this.getFloorYTreshold();
-
 		this.timeline.addEventListener("click", (e) => {
 			this.timelineClick(e.target.className, e.y);
 
@@ -94,10 +103,6 @@ const calls = {
 	setupIdleEvent: function () {
 		let dir = 1;
 		let count = 0;
-		const floor = document
-			.getElementsByClassName("ground")[0]
-			.getBoundingClientRect();
-		this.char.setPositionY(floor.y - floor.height / 4);
 		this.idleEvent = setInterval(() => {
 			let next_x = this.char.getPos().x + PACING_DISTANCE * dir;
 			//TODO Lock char animation in JUMP STATE
@@ -115,16 +120,23 @@ const calls = {
 	},
 
 	timelineClick: function (targetClass, targetY) {
+		const dots = document.getElementsByTagName("time-dot");
 		if (targetClass === "me") {
 			this.setCVLevel(0);
 		} else {
 			let level = 0;
-			for (let t of this.yTreshholds) {
-				if (targetY >= t) {
-					this.setCVLevel(level);
-					break;
+			for (let dot of dots) {
+				if (dot.innerHTML <= this.lastYear) {
+					const { y, height } = dot.getBoundingClientRect();
+					const dot_threshold = y + height;
+					if (targetY >= dot_threshold) {
+						this.setCVLevel(level);
+						break;
+					} else {
+						level++;
+					}
 				} else {
-					level++;
+					this.setCVLevel(level);
 				}
 			}
 		}
@@ -209,23 +221,6 @@ const calls = {
 		}
 	},
 
-	getFloorYTreshold: function () {
-		//FIXME this need to change on screen changing event
-		const dots = document.getElementsByTagName("time-dot");
-		this.yTreshholds = [];
-		for (let dot of dots) {
-			if (dot.innerHTML <= this.lastYear) {
-				let { y, height } = dot.getBoundingClientRect();
-				this.yTreshholds.push(y + height);
-				console.log(dot, y, height);
-			} else {
-				this.yTreshholds.push(0);
-				break;
-			}
-		}
-		console.log(this.yTreshholds); //FIXME Debug console Y
-	},
-
 	setCVLevel: function (level) {
 		if (this.currentLevel === level) {
 			return;
@@ -243,13 +238,9 @@ const calls = {
 				break;
 		}
 
-		if (this.currentLevel === -1) {
+		this.moveFloors(level).then(() => {
 			this.binding.infoPanel.innerHTML = this.info;
-		} else {
-			moveFloors.call(this, level).then(() => {
-				this.binding.infoPanel.innerHTML = this.info;
-			});
-		}
+		});
 
 		this.currentLevel = level;
 	},
@@ -326,6 +317,37 @@ const calls = {
 		localStorage.setItem("lv", this.level);
 	},
 
+	moveFloors: function (level) {
+		return new Promise((res, rej) => {
+			const floors = document.getElementsByTagName("floor");
+			for (let f of floors) {
+				f.style.top = toPercentageStyle(level * 100);
+			}
+
+			if (this.currentLevel !== -1) {
+				const randomLengths = {
+					title: randomInt(30, 5),
+					body: randomInt(250, 750),
+				};
+
+				const jumbleInterval = setInterval(() => {
+					jumbleLetters.call(
+						this,
+						randomLengths.title,
+						randomLengths.body
+					);
+				}, 100);
+
+				floors[0].addEventListener("transitionend", () => {
+					clearInterval(jumbleInterval);
+					res();
+				});
+			} else {
+				res();
+			}
+		});
+	},
+
 	end: function () {
 		this.saveIdleData();
 		clearInterval(this.idleEvent);
@@ -336,28 +358,6 @@ const calls = {
 Object.assign(CV, calls);
 
 //TODO ADD ALL THESE FUNCTIONS ON CALLS OBJECT
-
-function moveFloors(level) {
-	return new Promise((res, rej) => {
-		const floors = document.getElementsByTagName("floor");
-		for (let f of floors) {
-			f.style.top = toPercentageStyle(level * 100);
-		}
-
-		const randomLengths = {
-			title: randomInt(30, 5),
-			body: randomInt(250, 750),
-		};
-		const jumbleInterval = setInterval(() => {
-			jumbleLetters.call(this, randomLengths.title, randomLengths.body);
-		}, 100);
-
-		floors[0].addEventListener("transitionend", () => {
-			clearInterval(jumbleInterval);
-			res();
-		});
-	});
-}
 
 function jumbleLetters(titleRandomLength, bodyRandomLegth) {
 	const letters = "abcdefghijklmnopqrsuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -398,53 +398,3 @@ function getAllJobTopicsAsLi(topics) {
 }
 
 export default CV;
-
-/* FIXME
-ERROR CALC Y THRESH
-0
-: 
-745.6875
-1
-: 
-643.40625
-2
-: 
-541.125
-3
-: 
-438.84375
-4
-: 
-336.5625
-5
-: 
-234.28125
-6
-: 
-0
-
-THE Y Pos is strange
-
-GOOD CALC Y:
-0
-: 
-765.6875
-1
-: 
-663.40625
-2
-: 
-561.125
-3
-: 
-458.84375
-4
-: 
-356.5625
-5
-: 
-254.28125
-6
-: 
-0
-*/

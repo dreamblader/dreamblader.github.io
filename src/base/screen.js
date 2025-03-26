@@ -17,7 +17,7 @@ export default class Place {
 		this.container = document.getElementById("container");
 	}
 
-	onStart() {
+	onStart(startParams) {
 		console.log("Place: " + this.name + " onStart");
 		this.#setupBindings();
 		this.#setupExitButton();
@@ -25,7 +25,7 @@ export default class Place {
 		this.#setupTutorial();
 
 		if (typeof this.start === "function") {
-			this.start();
+			this.start(startParams);
 		}
 	}
 

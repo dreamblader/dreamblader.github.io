@@ -6,7 +6,7 @@ export default class ScreenManager {
 		this.container = document.getElementById("container");
 		this.transition = document.getElementById("transition");
 		this.#setupStyles();
-		this.#goToScreen(screens[Object.keys(screens)[0]]);
+		this.#redirectToScreen(new URLSearchParams(window.location.search));
 	}
 
 	#setupStyles() {
@@ -54,12 +54,28 @@ export default class ScreenManager {
 		});
 	}
 
-	#goToScreen(nextScreen) {
+	#redirectToScreen(urlParams) {
+		const defaultFirstScreen = this.screens[Object.keys(this.screens)[0]];
+		if (urlParams.size === 0) {
+			this.#goToScreen(defaultFirstScreen);
+		} else {
+			const url = new URL(location);
+			url.search = "";
+			window.history.pushState({}, "", url);
+			for (let id in this.screens) {
+				if (urlParams.has(id)) {
+					this.#goToScreen(this.screens[id], urlParams.get(id));
+				}
+			}
+		}
+	}
+
+	#goToScreen(nextScreen, startParams) {
 		return new Promise((res, rej) => {
 			this.addToTarget(this.container, nextScreen.url)
 				.then(
 					() => {
-						nextScreen.onStart();
+						nextScreen.onStart(startParams);
 						this.currentScreen = nextScreen;
 						res();
 					},
