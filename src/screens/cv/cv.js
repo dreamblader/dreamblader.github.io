@@ -66,11 +66,11 @@ const calls = {
 		let mini_gm3 = GM3_SPRITES();
 		mini_gm3.scale = 2;
 		this.mini_char = new Char(char_holder, mini_gm3);
-		const { x, y } = start_div.getBoundingClientRect();
-		const padding = Number(
-			getComputedStyle(start_div).padding.replace("px", "")
-		);
-		this.mini_char.setPosition(x + padding, y + padding);
+		const [x, y] = getCenterofRect(start_div.getBoundingClientRect());
+		const { x: charOffsetX, y: charOffsetY } =
+			this.mini_char.getCenterOffset();
+
+		this.mini_char.setPosition(x - charOffsetX, y - charOffsetY);
 	},
 
 	setupPage: function () {

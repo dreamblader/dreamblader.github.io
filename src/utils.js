@@ -64,7 +64,6 @@ export function isExternalLink(url) {
 }
 
 export function getCenterofRect(rect) {
-	console.log(rect);
 	return [rect.x + rect.width / 2, rect.y + rect.height / 2];
 }
 
