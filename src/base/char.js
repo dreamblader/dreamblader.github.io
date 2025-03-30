@@ -100,12 +100,18 @@ export default class Char {
 		];
 		const duration = {
 			duration: 1000,
+			once: true,
 		};
 
 		this.movement = this.holder.animate(frames, duration);
 		this.movement.onfinish = (e) => {
 			this.animate("idle");
 			this.setPosition(finalPosX, finalPosY);
+
+			if (typeof this.movement.finishCallback === "function") {
+				this.movement.finishCallback();
+			}
+
 			this.movement = null;
 		};
 	}

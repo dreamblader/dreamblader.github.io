@@ -46,8 +46,8 @@ const calls = {
 			.then((data) => {
 				this.cv = data;
 				this.setupPage();
-				this.setupIdleEvent();
 				this.setupMiniChar();
+				this.setupIdleEvent();
 				this.setCVLevel(isNaN(startLevel) ? 0 : startLevel);
 			})
 			.catch((error) => {
@@ -56,11 +56,7 @@ const calls = {
 	},
 
 	setupMiniChar: function () {
-		const floor = document
-			.getElementsByClassName("ground")[0]
-			.getBoundingClientRect();
-		this.char.setPositionY(floor.y - floor.height / 4);
-
+		this.positionChar();
 		const char_holder = this.binding.miniChar;
 		const start_div = document.getElementsByClassName("me")[0];
 		let mini_gm3 = GM3_SPRITES();
@@ -71,6 +67,24 @@ const calls = {
 			this.mini_char.getCenterOffset();
 
 		this.mini_char.setPosition(x - charOffsetX, y - charOffsetY);
+		this.currentMiniPosPercent = (y - charOffsetY) / window.innerHeight;
+	},
+
+	positionChar: function () {
+		this.originCharX = window.innerWidth * 0.4;
+		const level = Math.max(0, this.currentLevel);
+		const floor = document
+			.getElementsByClassName("ground")
+			[level].getBoundingClientRect();
+		this.originCharY = floor.y - floor.height / 4;
+		this.char.setPositionY(this.originCharY);
+	},
+
+	resize: function (viewport) {
+		this.positionChar();
+		this.mini_char.setPositionY(
+			this.currentMiniPosPercent * viewport.height
+		);
 	},
 
 	setupPage: function () {
@@ -95,8 +109,8 @@ const calls = {
 
 		this.timeline.addEventListener("click", (e) => {
 			this.timelineClick(e.target.className, e.y);
-
 			this.mini_char.clickIn(null, e.y);
+			this.currentMiniPosPercent = e.y / window.innerHeight;
 		});
 	},
 
@@ -104,13 +118,12 @@ const calls = {
 		let dir = 1;
 		let count = 0;
 		this.idleEvent = setInterval(() => {
-			let next_x = this.char.getPos().x + PACING_DISTANCE * dir;
-			//TODO Lock char animation in JUMP STATE
-			this.char.moveTo(next_x, null);
-			if (dir === -1) {
+			let next_x = this.originCharX + PACING_DISTANCE * dir;
+			this.char.moveTo(next_x, this.originCharY);
+			if (dir === 0) {
 				this.addExp(this.currentLevel);
 			}
-			dir *= -1;
+			dir = (dir + 1) % 2;
 			count += 1;
 			if (count >= 10) {
 				count = 0;

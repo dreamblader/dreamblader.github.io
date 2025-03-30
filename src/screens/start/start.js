@@ -57,7 +57,7 @@ const calls = {
 
 	buildingClickEvent: function (element) {
 		this.char.block = true;
-		this.char.movement.onfinish = (e) => {
+		this.char.movement.finishCallback = () => {
 			this.changeScreen(element.id);
 		};
 	},
