@@ -82,6 +82,8 @@ export default class Char {
 		this.animate("walk");
 
 		const { x: myX, y: myY } = this.getPos();
+		const finalPosX = posX !== null ? posX : myX;
+		const finalPosY = posY !== null ? posY : myY;
 
 		if (posX) {
 			this.changeDirection(myX <= posX ? 1 : -1);
@@ -92,18 +94,18 @@ export default class Char {
 				top: toPxStyle(myY),
 			},
 			{
-				left: posX !== null ? toPxStyle(posX) : toPxStyle(myX),
-				top: posY !== null ? toPxStyle(posY) : toPxStyle(myY),
+				left: toPxStyle(finalPosX),
+				top: toPxStyle(finalPosY),
 			},
 		];
 		const duration = {
 			duration: 1000,
-			fill: "forwards",
 		};
 
 		this.movement = this.holder.animate(frames, duration);
 		this.movement.onfinish = (e) => {
 			this.animate("idle");
+			this.setPosition(finalPosX, finalPosY);
 			this.movement = null;
 		};
 	}

@@ -36,6 +36,12 @@ export default class Place {
 		}
 	}
 
+	onResize(viewport) {
+		if (typeof this.resize === "function") {
+			this.resize(viewport);
+		}
+	}
+
 	onEnd() {
 		console.log("Place: " + this.name + " onEnd");
 

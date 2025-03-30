@@ -5,6 +5,7 @@ export default class ScreenManager {
 		this.screens = screens;
 		this.container = document.getElementById("container");
 		this.transition = document.getElementById("transition");
+		window.onresize = () => this.resizeScreen();
 		this.#setupStyles();
 		this.#redirectToScreen(new URLSearchParams(window.location.search));
 	}
@@ -52,6 +53,14 @@ export default class ScreenManager {
 				});
 			}
 		});
+	}
+
+	resizeScreen() {
+		const viewport = {
+			height: window.innerHeight,
+			width: window.innerWidth,
+		};
+		this.currentScreen.onResize(viewport);
 	}
 
 	#redirectToScreen(urlParams) {

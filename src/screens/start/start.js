@@ -31,6 +31,21 @@ const calls = {
 		window.removeEventListener("click", this.listeners.anyClick);
 	},
 
+	resize: function (viewport) {
+		const {
+			x: charX,
+			y: charY,
+			height: charH,
+			width: charW,
+		} = this.char.getRect();
+		if (charX + charW > viewport.width) {
+			this.char.setPositionX(viewport.width - charW);
+		}
+		if (charY + charH > viewport.height) {
+			this.char.setPositionY(viewport.height - charH);
+		}
+	},
+
 	setupBuildings: function (buildings) {
 		Array.from(buildings).forEach((element) => {
 			element.addEventListener("click", (event) => {
