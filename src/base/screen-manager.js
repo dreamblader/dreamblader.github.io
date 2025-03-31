@@ -74,8 +74,10 @@ export default class ScreenManager {
 			for (let id in this.screens) {
 				if (urlParams.has(id)) {
 					this.#goToScreen(this.screens[id], urlParams.get(id));
+					return;
 				}
 			}
+			this.#goToScreen(defaultFirstScreen);
 		}
 	}
 
